@@ -74,9 +74,25 @@
     }
 
     .logo {
-      display: flex; flex-direction: column; gap: 0;
-      text-decoration: none;
-    }
+  display: flex;
+  flex-direction: row;   /* ← era "column", agora coloca lado a lado */
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+}
+
+.logo-img {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  mix-blend-mode: multiply; /* ← funde o fundo branco com o fundo do header */
+}
+
+.logo-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
     .logo-name {
       font-family: 'Playfair Display', serif;
       font-size: 1.7rem; font-weight: 700;
@@ -691,9 +707,12 @@
   <!-- ─── HEADER ─── -->
   <header id="header">
     <a href="#" class="logo">
-      <span class="logo-name">Pedacinho</span>
-      <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
-    </a>
+  <img src="img/newlogo.png" alt="Pedacinho" class="logo-img" />
+  <div class="logo-texts">
+    <span class="logo-name">Pedacinho</span>
+    <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
+  </div>
+</a>
     <nav>
       <a href="#categorias">Categorias</a>
       <a href="#produtos">Produtos</a>
@@ -743,11 +762,11 @@
       <div class="stat-l">tipos de tecido</div>
     </div>
     <div class="stat">
-      <div class="stat-n" data-count="25">0</div>
+      <div class="stat-n" data-count="20">0+</div>
       <div class="stat-l">anos de mercado</div>
     </div>
     <div class="stat">
-      <div class="stat-n" data-count="12000">0</div>
+      <div class="stat-n" data-count="1500">0</div>
       <div class="stat-l">clientes satisfeitos</div>
     </div>
     <div class="stat">
@@ -928,13 +947,12 @@
   <footer>
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="logo">
-          <span class="logo-name">Pedacinho</span>
-          <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
-          <a href="#" class="logo" style="display:flex; flex-direction:row; align-items:center; gap:.7rem;">
-          <img src="img/logo.png" alt="Pedacinho logo" style="width:52px; height:52px; object-fit:contain;">
+   <a href="#" class="logo">
+  <div class="logo-texts">
+    <span class="logo-name">Pedacinho</span>
+    <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
+  </div>
 </a>
-        </div>
         <p class="footer-about">Uma loja especializada em tecidos para quem ama criar. Do algodão ao veludo, do básico ao exclusivo — encontre aqui o material perfeito para o seu próximo projeto.</p>
       </div>
       <div class="footer-col">
@@ -967,8 +985,8 @@
       </div>
     </div>
     <div class="footer-bar">
-      <span>© 2025 Pedacinho. Todos os direitos reservados.</span>
-      <span>Feito com ❤️ para quem cria</span>
+      <span>© 2026 Pedacinho. Todos os direitos reservados.</span>
+      <span>Feito por Bruno Guttervill</span>
     </div>
   </footer>
 
