@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contato — Pedacinho</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #F5EFE4;
+      --warm:     #EDE0CC;
+      --sand:     #D4B896;
+      --terra:    #B8794A;
+      --brick:    #9C5C32;
+      --espresso: #3D2314;
+      --blush:    #E8C4A8;
+      --olive:    #7A7055;
+      --dust:     #C9B8A8;
+      --ink:      #2A1F15;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    #cursor {
+      position: fixed;
+      width: 12px; height: 12px;
+      background: var(--terra);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .2s, height .2s, background .2s;
+      mix-blend-mode: multiply;
+    }
+    #cursor.big {
+      width: 48px; height: 48px;
+      background: var(--blush);
+    }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .035;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 3rem;
+      background: rgba(245,239,228,.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(184,121,74,.15);
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+    }
+    .logo-img {
+      height: 44px; width: auto;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+    .logo-texts { display: flex; flex-direction: column; gap: 0; }
+    .logo-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem; font-weight: 700;
+      color: var(--brick);
+      letter-spacing: -.02em; line-height: 1;
+    }
+    .logo-tag {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: .85rem; color: var(--olive);
+      letter-spacing: .08em;
+    }
+
+    nav { display: flex; gap: 2.2rem; }
+    nav a {
+      text-decoration: none;
+      font-size: .82rem; font-weight: 500;
+      color: var(--espresso);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1.5px;
+      background: var(--terra);
+      transition: width .3s;
+    }
+    nav a:hover::after { width: 100%; }
+    nav a.active::after { width: 100%; }
+
+    .header-btn {
+      background: var(--brick);
+      color: var(--cream) !important;
+      padding: .5rem 1.3rem;
+      border-radius: 2px;
+      font-size: .78rem !important;
+      letter-spacing: .1em !important;
+      transition: background .25s !important;
+    }
+    .header-btn::after { display: none !important; }
+    .header-btn:hover { background: var(--espresso) !important; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: none; background: none; border: none;
+      padding: .3rem;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--espresso);
+    }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      padding-top: 8rem;
+      padding-bottom: 0;
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 5rem 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+    }
+
+    .page-hero-left {
+      padding-bottom: 4rem;
+    }
+
+    .page-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1rem;
+      color: var(--olive);
+      letter-spacing: .12em;
+      margin-bottom: 1rem;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .7s .2s forwards;
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--espresso);
+      margin-bottom: 1.4rem;
+      opacity: 0; transform: translateY(30px);
+      animation: fadeUp .8s .4s forwards;
+    }
+    .page-title em {
+      font-style: italic;
+      color: var(--brick);
+    }
+
+    .page-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 300;
+      color: var(--olive); line-height: 1.75;
+      max-width: 400px;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .7s .6s forwards;
+    }
+
+    .page-hero-right {
+      position: relative;
+      height: 320px;
+      opacity: 0;
+      animation: fadeUp .8s .5s forwards;
+    }
+
+    /* Decorative fabric swatch stack */
+    .swatch-stack {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 100%; height: 100%;
+    }
+
+    .swatch-block {
+      position: absolute;
+      border-radius: 4px;
+    }
+    .swatch-block:nth-child(1) {
+      width: 200px; height: 240px;
+      background: linear-gradient(135deg, var(--blush), var(--sand));
+      bottom: 20px; right: 60px;
+      transform: rotate(-6deg);
+      opacity: .7;
+    }
+    .swatch-block:nth-child(2) {
+      width: 200px; height: 240px;
+      background: linear-gradient(135deg, var(--terra), var(--brick));
+      bottom: 30px; right: 20px;
+      transform: rotate(2deg);
+    }
+    .swatch-block:nth-child(3) {
+      width: 180px; height: 200px;
+      background: linear-gradient(135deg, var(--warm), var(--dust));
+      bottom: 10px; right: 120px;
+      transform: rotate(-2deg);
+      opacity: .5;
+    }
+
+    /* Woven texture on swatches */
+    .swatch-block::after {
+      content: '';
+      position: absolute; inset: 0; border-radius: 4px;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(255,255,255,.06) 6px, rgba(255,255,255,.06) 7px),
+        repeating-linear-gradient(90deg, transparent, transparent 6px, rgba(255,255,255,.06) 6px, rgba(255,255,255,.06) 7px);
+    }
+
+    /* Thread line decoration */
+    .thread-line {
+      position: absolute;
+      left: 0; top: 50%;
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--sand) 30%, var(--terra) 70%, transparent);
+      opacity: .3;
+    }
+
+    /* ─── DIVIDER ─── */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--sand), transparent);
+      margin: 0 5rem;
+      opacity: .5;
+    }
+
+    /* ─── CONTACT LAYOUT ─── */
+    .contact-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 5rem 7rem;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    /* ─── CONTACT INFO ─── */
+    .contact-info {
+      position: sticky;
+      top: 7rem;
+    }
+
+    .info-block {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(212,184,150,.3);
+    }
+    .info-block:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .info-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .9rem;
+      color: var(--terra);
+      letter-spacing: .1em;
+      margin-bottom: .6rem;
+    }
+
+    .info-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--espresso);
+      margin-bottom: .5rem;
+    }
+
+    .info-text {
+      font-size: .88rem; font-weight: 300;
+      color: var(--olive); line-height: 1.7;
+    }
+
+    .info-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      text-decoration: none;
+      font-size: .88rem; font-weight: 500;
+      color: var(--brick);
+      margin-top: .5rem;
+      transition: gap .25s, color .2s;
+    }
+    .info-link:hover { gap: .8rem; color: var(--espresso); }
+
+    /* Social row */
+    .social-row {
+      display: flex; gap: .8rem; margin-top: 1rem;
+    }
+    .social-btn {
+      display: flex; align-items: center; gap: .5rem;
+      text-decoration: none;
+      background: var(--warm);
+      border: 1px solid rgba(212,184,150,.4);
+      padding: .55rem 1rem;
+      border-radius: 2px;
+      font-size: .78rem; font-weight: 500;
+      color: var(--espresso);
+      letter-spacing: .04em;
+      transition: background .25s, border-color .25s, transform .2s;
+    }
+    .social-btn:hover {
+      background: var(--espresso);
+      color: var(--cream);
+      border-color: var(--espresso);
+      transform: translateY(-2px);
+    }
+
+    /* Map placeholder */
+    .map-box {
+      margin-top: 1.2rem;
+      height: 160px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--warm) 0%, var(--sand) 100%);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(212,184,150,.4);
+    }
+    .map-box::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(184,121,74,.06) 20px, rgba(184,121,74,.06) 21px),
+        repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(184,121,74,.06) 20px, rgba(184,121,74,.06) 21px);
+    }
+    .map-pin {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      font-size: 2rem; z-index: 2;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .map-label {
+      position: absolute; bottom: .8rem; left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      font-size: .72rem; font-weight: 500;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--espresso);
+      background: rgba(245,239,228,.85);
+      padding: .3rem .8rem;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translate(-50%, -60%); }
+      50% { transform: translate(-50%, -72%); }
+    }
+
+    /* ─── CONTACT FORM ─── */
+    .contact-form-wrap {
+      background: #fff;
+      border-radius: 4px;
+      padding: 3rem;
+      box-shadow: 0 4px 40px rgba(61,35,20,.06);
+    }
+
+    .form-head {
+      margin-bottom: 2.5rem;
+    }
+    .form-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .9rem;
+      color: var(--terra);
+      letter-spacing: .1em;
+      margin-bottom: .4rem;
+    }
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--espresso);
+      line-height: 1.15;
+    }
+
+    /* Subject tabs */
+    .subject-tabs {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+      margin-bottom: 2rem;
+    }
+    .tab-btn {
+      background: none;
+      border: 1.5px solid rgba(212,184,150,.5);
+      color: var(--olive);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem; font-weight: 500;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: .45rem 1rem;
+      border-radius: 2px;
+      cursor: none;
+      transition: all .2s;
+    }
+    .tab-btn:hover {
+      border-color: var(--terra);
+      color: var(--terra);
+    }
+    .tab-btn.active {
+      background: var(--brick);
+      border-color: var(--brick);
+      color: var(--cream);
+    }
+
+    /* Form fields */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .form-group {
+      display: flex; flex-direction: column;
+      gap: .4rem;
+      margin-bottom: 1.2rem;
+    }
+    .form-group:last-of-type { margin-bottom: 0; }
+
+    .form-label {
+      font-size: .75rem; font-weight: 500;
+      letter-spacing: .07em; text-transform: uppercase;
+      color: var(--olive);
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: .8rem 1rem;
+      border: 1.5px solid rgba(212,184,150,.5);
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color .25s, box-shadow .25s;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--dust); }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--terra);
+      box-shadow: 0 0 0 3px rgba(184,121,74,.1);
+    }
+
+    .form-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A7055' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      cursor: none;
+    }
+    .form-select option { color: var(--ink); background: var(--cream); }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.6;
+    }
+
+    /* Char counter */
+    .field-footer {
+      display: flex; justify-content: flex-end;
+      margin-top: .3rem;
+    }
+    .char-count {
+      font-size: .72rem; color: var(--dust);
+    }
+
+    /* WhatsApp option */
+    .wa-option {
+      display: flex; align-items: center; gap: .8rem;
+      margin: 1.5rem 0;
+      padding: 1rem 1.2rem;
+      background: rgba(90,166,90,.06);
+      border: 1.5px solid rgba(90,166,90,.2);
+      border-radius: 4px;
+    }
+    .wa-option input[type="checkbox"] {
+      accent-color: #5aa65a;
+      width: 16px; height: 16px;
+      cursor: none;
+    }
+    .wa-label {
+      font-size: .84rem; color: var(--olive);
+      line-height: 1.4;
+    }
+    .wa-label strong { color: var(--espresso); }
+
+    /* Submit */
+    .form-submit {
+      width: 100%;
+      background: var(--brick);
+      color: var(--cream);
+      border: none;
+      padding: 1rem 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .84rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      border-radius: 2px;
+      cursor: none;
+      transition: background .25s, transform .2s;
+      margin-top: 1.8rem;
+      position: relative; overflow: hidden;
+    }
+    .form-submit:hover {
+      background: var(--espresso);
+      transform: translateY(-2px);
+    }
+    .form-submit:active { transform: translateY(0); }
+
+    /* Shimmer on submit */
+    .form-submit::before {
+      content: '';
+      position: absolute; top: 0; left: -100%; bottom: 0;
+      width: 60%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+      transition: left .6s;
+    }
+    .form-submit:hover::before { left: 150%; }
+
+    /* Success state */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem 0;
+    }
+    .form-success.show { display: block; }
+    .success-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .success-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--espresso);
+      margin-bottom: .6rem;
+    }
+    .success-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.05rem;
+      color: var(--olive); line-height: 1.6;
+    }
+
+    /* ─── HOURS & INFO STRIP ─── */
+    .hours-strip {
+      background: var(--espresso);
+      padding: 3.5rem 5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+    .hour-block {
+      padding: 0 1rem;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .hour-block:last-child { border-right: none; }
+    .hour-icon { font-size: 1.8rem; margin-bottom: .8rem; }
+    .hour-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--blush);
+      margin-bottom: .4rem;
+    }
+    .hour-text {
+      font-size: .82rem; font-weight: 300;
+      color: var(--dust); line-height: 1.7;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      color: var(--dust);
+      padding: 4rem 5rem 2rem;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-brand .logo-name { color: var(--blush); }
+    .footer-brand .logo-tag { color: var(--dust); }
+    .footer-about {
+      font-size: .83rem; font-weight: 300;
+      line-height: 1.7; margin-top: 1rem;
+      color: var(--dust);
+    }
+    .footer-col h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: .95rem; color: var(--cream);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .footer-col ul a {
+      text-decoration: none; font-size: .83rem;
+      color: var(--dust); transition: color .2s;
+    }
+    .footer-col ul a:hover { color: var(--blush); }
+    .footer-bar {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .75rem; color: rgba(200,180,165,.5);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .7s, transform .7s;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .page-hero-inner {
+        grid-template-columns: 1fr;
+        padding: 2rem 1.5rem 0;
+        gap: 2rem;
+      }
+      .page-hero-right { height: 220px; }
+      .contact-wrap {
+        grid-template-columns: 1fr;
+        padding: 3rem 1.5rem 5rem;
+        gap: 3rem;
+      }
+      .contact-info { position: static; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form-wrap { padding: 2rem 1.5rem; }
+      .hours-strip {
+        grid-template-columns: 1fr;
+        padding: 3rem 1.5rem;
+      }
+      .hour-block { border-right: none; border-bottom: 1px solid rgba(255,255,255,.08); padding-bottom: 2rem; }
+      .hour-block:last-child { border-bottom: none; padding-bottom: 0; }
+      footer { padding: 3rem 1.5rem 1.5rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      header { padding: 1.2rem 1.5rem; }
+      nav, .header-btn { display: none; }
+      .hamburger { display: flex; }
+      .section-divider { margin: 0 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+
+  <!-- ─── HEADER ─── -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/newlogo.png" alt="Pedacinho" class="logo-img" />
+      <div class="logo-texts">
+        <span class="logo-name">Pedacinho</span>
+        <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html#categorias">Categorias</a>
+      <a href="index.html#produtos">Produtos</a>
+      <a href="index.html#sobre">Sobre</a>
+      <a href="contato.html" class="active">Contato</a>
+      <a href="#" class="header-btn">Ver catálogo</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ─── PAGE HERO ─── -->
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="page-hero-left">
+        <p class="page-eyebrow">✦ Estamos aqui por você</p>
+        <h1 class="page-title">
+          Vamos<br>conversar<br><em>juntos.</em>
+        </h1>
+        <p class="page-desc">
+          Dúvidas sobre tecidos, pedidos especiais ou só quer bater um papo sobre costura? Nossa equipe adora ouvir você.
+        </p>
+      </div>
+      <div class="page-hero-right">
+        <div class="swatch-stack">
+          <div class="swatch-block"></div>
+          <div class="swatch-block"></div>
+          <div class="swatch-block"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── MAIN CONTACT ─── -->
+  <div class="contact-wrap">
+
+    <!-- INFO SIDEBAR -->
+    <aside class="contact-info reveal">
+
+      <div class="info-block">
+        <p class="info-label">Onde nos encontrar</p>
+        <div class="info-title">Loja física</div>
+        <p class="info-text">Rua XV de Novembro, 482<br>Centro — Canoinhas, SC<br>CEP 89460-000</p>
+        <div class="map-box">
+          <span class="map-pin">📍</span>
+          <span class="map-label">Canoinhas — SC</span>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <p class="info-label">Fale conosco agora</p>
+        <div class="info-title">WhatsApp & Telefone</div>
+        <p class="info-text">Atendemos de segunda a sábado<br>das 9h às 18h.</p>
+        <a href="https://wa.me/5547999999999" class="info-link" target="_blank">
+          📱 (47) 99999-9999 →
+        </a>
+      </div>
+
+      <div class="info-block">
+        <p class="info-label">Redes sociais</p>
+        <div class="info-title">Nos siga</div>
+        <p class="info-text">Novidades, promoções e inspirações diárias para quem ama costurar.</p>
+        <div class="social-row">
+          <a href="#" class="social-btn" target="_blank">
+            <span>📷</span> Instagram
+          </a>
+          <a href="#" class="social-btn" target="_blank">
+            <span>💬</span> WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <p class="info-label">E-mail</p>
+        <div class="info-title">contato@pedacinho.com.br</div>
+        <p class="info-text">Respondemos em até 24 horas em dias úteis.</p>
+        <a href="mailto:contato@pedacinho.com.br" class="info-link">
+          ✉️ Enviar e-mail →
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- FORM -->
+    <div class="contact-form-wrap reveal" style="transition-delay: .15s">
+
+      <div class="form-head">
+        <p class="form-eyebrow">Mensagem direta</p>
+        <h2 class="form-title">Como podemos<br>te ajudar?</h2>
+      </div>
+
+      <!-- Subject tabs -->
+      <div class="subject-tabs" id="subjectTabs">
+        <button class="tab-btn active" data-subject="Dúvida sobre produto">Dúvida sobre produto</button>
+        <button class="tab-btn" data-subject="Pedido especial">Pedido especial</button>
+        <button class="tab-btn" data-subject="Amostras">Amostras grátis</button>
+        <button class="tab-btn" data-subject="Outros">Outros</button>
+      </div>
+
+      <div id="contactForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="nome">Nome</label>
+            <input class="form-input" type="text" id="nome" placeholder="Seu nome" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="telefone">Telefone</label>
+            <input class="form-input" type="tel" id="telefone" placeholder="(47) 9 9999-9999" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">E-mail</label>
+          <input class="form-input" type="email" id="email" placeholder="seu@email.com" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="assunto">Assunto</label>
+          <select class="form-select" id="assunto">
+            <option value="">Selecione um assunto</option>
+            <option>Dúvida sobre produto</option>
+            <option>Pedido especial / encomenda</option>
+            <option>Solicitar amostras</option>
+            <option>Troca ou devolução</option>
+            <option>Parceria comercial</option>
+            <option>Outros</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="mensagem">Mensagem</label>
+          <textarea class="form-textarea" id="mensagem" maxlength="600"
+            placeholder="Descreva sua dúvida ou pedido em detalhes..."></textarea>
+          <div class="field-footer">
+            <span class="char-count" id="charCount">0 / 600</span>
+          </div>
+        </div>
+
+        <div class="wa-option">
+          <input type="checkbox" id="whatsappOpt" />
+          <label class="wa-label" for="whatsappOpt">
+            <strong>Prefiro resposta pelo WhatsApp.</strong> Nossa equipe pode entrar em contato pelo número informado.
+          </label>
+        </div>
+
+        <button class="form-submit" id="submitBtn" onclick="submitForm()">
+          Enviar mensagem
+        </button>
+      </div>
+
+      <!-- Success -->
+      <div class="form-success" id="formSuccess">
+        <div class="success-icon">🧵</div>
+        <div class="success-title">Mensagem recebida!</div>
+        <p class="success-text">
+          Obrigada pelo contato.<br>
+          Nossa equipe responderá em breve — você merece o melhor atendimento.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── HOURS STRIP ─── -->
+  <section class="hours-strip reveal">
+    <div class="hour-block">
+      <div class="hour-icon">🕘</div>
+      <div class="hour-title">Segunda a Sexta</div>
+      <div class="hour-text">08:30h às 18:30h<br>Atendimento completo</div>
+    </div>
+    <div class="hour-block">
+      <div class="hour-icon">🕙</div>
+      <div class="hour-title">Sábado</div>
+      <div class="hour-text">09:00h às 12:30h<br>Loja física e WhatsApp</div>
+    </div>
+    <div class="hour-block">
+      <div class="hour-icon">🌙</div>
+      <div class="hour-title">Domingo e Feriados</div>
+      <div class="hour-text">Fechado<br>Respondemos na próxima abertura</div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <div class="logo-texts">
+            <span class="logo-name">Pedacinho</span>
+            <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
+          </div>
+        </a>
+        <p class="footer-about">Uma loja especializada em tecidos para quem ama criar. Do algodão ao veludo, do básico ao exclusivo — encontre aqui o material perfeito para o seu próximo projeto.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Categorias</h4>
+        <ul>
+          <li><a href="#">Algodão & Linho</a></li>
+          <li><a href="#">Seda & Cetim</a></li>
+          <li><a href="#">Malhas</a></li>
+          <li><a href="#">Veludo</a></li>
+          <li><a href="#">Estampados</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Atendimento</h4>
+        <ul>
+          <li><a href="#">Meu pedido</a></li>
+          <li><a href="#">Política de troca</a></li>
+          <li><a href="#">Amostras</a></li>
+          <li><a href="#">Perguntas frequentes</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="#">WhatsApp</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">E-mail</a></li>
+          <li><a href="#">Nossa loja física</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>© 2026 Pedacinho. Todos os direitos reservados.</span>
+      <span>Feito por Bruno Guttervill</span>
+    </div>
+  </footer>
+
+  <script>
+    // ─── CURSOR ───
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, input, textarea, select, .cat-card').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+    });
+
+    // ─── REVEAL ON SCROLL ───
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => obs.observe(r));
+
+    // ─── SUBJECT TABS ───
+    const tabs = document.querySelectorAll('.tab-btn');
+    const assuntoSelect = document.getElementById('assunto');
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        // Sync with select
+        const val = btn.dataset.subject;
+        for (let opt of assuntoSelect.options) {
+          if (opt.text.startsWith(val.split(' ')[0])) { assuntoSelect.value = opt.value; break; }
+        }
+      });
+    });
+
+    // ─── CHAR COUNTER ───
+    const textarea = document.getElementById('mensagem');
+    const charCount = document.getElementById('charCount');
+    textarea.addEventListener('input', () => {
+      charCount.textContent = textarea.value.length + ' / 600';
+    });
+
+    // ─── PHONE MASK ───
+    document.getElementById('telefone').addEventListener('input', function () {
+      let v = this.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length >= 7) v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+      else if (v.length >= 2) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+      this.value = v;
+    });
+
+    // ─── FORM SUBMIT ───
+    function submitForm() {
+      const nome  = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const msg   = document.getElementById('mensagem').value.trim();
+
+      // Simple validation
+      let invalid = false;
+      [document.getElementById('nome'), document.getElementById('email'), document.getElementById('mensagem')].forEach(el => {
+        el.style.borderColor = '';
+      });
+
+      if (!nome) { document.getElementById('nome').style.borderColor = '#c05050'; invalid = true; }
+      if (!email || !email.includes('@')) { document.getElementById('email').style.borderColor = '#c05050'; invalid = true; }
+      if (!msg) { document.getElementById('mensagem').style.borderColor = '#c05050'; invalid = true; }
+
+      if (invalid) return;
+
+      const btn = document.getElementById('submitBtn');
+      btn.textContent = 'Enviando…';
+      btn.disabled = true;
+
+      // Simulate send
+      setTimeout(() => {
+        document.getElementById('contactForm').style.display = 'none';
+        document.getElementById('formSuccess').classList.add('show');
+      }, 1200);
+    }
+  </script>
+</body>
+</html>
