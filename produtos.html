@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todos os Produtos — Pedacinho</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #F5EFE4;
+      --warm:     #EDE0CC;
+      --sand:     #D4B896;
+      --terra:    #B8794A;
+      --brick:    #9C5C32;
+      --espresso: #3D2314;
+      --blush:    #E8C4A8;
+      --olive:    #7A7055;
+      --dust:     #C9B8A8;
+      --ink:      #2A1F15;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    #cursor {
+      position: fixed;
+      width: 12px; height: 12px;
+      background: var(--terra);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .2s, height .2s, background .2s;
+      mix-blend-mode: multiply;
+    }
+    #cursor.big { width: 48px; height: 48px; background: var(--blush); }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .035;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 3rem;
+      background: rgba(245,239,228,.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(184,121,74,.15);
+    }
+    .logo {
+      display: flex; flex-direction: row;
+      align-items: center; gap: 0.7rem;
+      text-decoration: none;
+    }
+    .logo-img { height: 44px; width: auto; object-fit: contain; mix-blend-mode: multiply; }
+    .logo-texts { display: flex; flex-direction: column; gap: 0; }
+    .logo-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem; font-weight: 700;
+      color: var(--brick); letter-spacing: -.02em; line-height: 1;
+    }
+    .logo-tag {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .85rem;
+      color: var(--olive); letter-spacing: .08em;
+    }
+    nav { display: flex; gap: 2.2rem; }
+    nav a {
+      text-decoration: none; font-size: .82rem; font-weight: 500;
+      color: var(--espresso); letter-spacing: .06em; text-transform: uppercase;
+      position: relative;
+    }
+    nav a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1.5px; background: var(--terra); transition: width .3s;
+    }
+    nav a:hover::after, nav a.active::after { width: 100%; }
+    .header-btn {
+      background: var(--brick); color: var(--cream) !important;
+      padding: .5rem 1.3rem; border-radius: 2px;
+      font-size: .78rem !important; letter-spacing: .1em !important;
+      transition: background .25s !important;
+    }
+    .header-btn::after { display: none !important; }
+    .header-btn:hover { background: var(--espresso) !important; }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: none; background: none; border: none; padding: .3rem;
+    }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--espresso); }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      padding: 8rem 5rem 4rem;
+      background: var(--cream);
+      position: relative; overflow: hidden;
+    }
+    .page-hero-inner {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 2rem;
+    }
+    .page-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1rem;
+      color: var(--olive); letter-spacing: .12em;
+      margin-bottom: 1rem;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .7s .2s forwards;
+    }
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 4.5vw, 4.5rem); font-weight: 700;
+      line-height: 1.05; color: var(--espresso);
+      opacity: 0; transform: translateY(30px);
+      animation: fadeUp .8s .35s forwards;
+    }
+    .page-title em { font-style: italic; color: var(--brick); }
+    .page-count {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1rem; color: var(--dust);
+      opacity: 0; animation: fadeUp .7s .5s forwards;
+      white-space: nowrap; align-self: flex-end; padding-bottom: .4rem;
+    }
+
+    /* ─── TOOLBAR ─── */
+    .toolbar {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.5rem 5rem;
+      border-bottom: 1px solid rgba(212,184,150,.3);
+      flex-wrap: wrap;
+    }
+
+    /* Filter pills */
+    .filter-scroll {
+      display: flex; gap: .5rem; flex: 1;
+      overflow-x: auto; padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+    .filter-scroll::-webkit-scrollbar { display: none; }
+    .pill {
+      flex-shrink: 0;
+      background: none;
+      border: 1.5px solid rgba(212,184,150,.5);
+      color: var(--olive);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .75rem; font-weight: 500;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: .4rem 1rem; border-radius: 99px;
+      cursor: none; transition: all .2s;
+      white-space: nowrap;
+    }
+    .pill:hover { border-color: var(--terra); color: var(--terra); }
+    .pill.active {
+      background: var(--brick); border-color: var(--brick);
+      color: var(--cream);
+    }
+
+    /* Sort */
+    .sort-select {
+      background: var(--warm);
+      border: 1.5px solid rgba(212,184,150,.4);
+      color: var(--espresso);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem; font-weight: 500;
+      padding: .45rem 2rem .45rem .9rem;
+      border-radius: 2px; cursor: none; outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237A7055' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right .7rem center;
+      transition: border-color .2s;
+    }
+    .sort-select:focus { border-color: var(--terra); }
+
+    /* Grid toggle */
+    .grid-toggle { display: flex; gap: .3rem; }
+    .toggle-btn {
+      background: none; border: 1.5px solid rgba(212,184,150,.4);
+      padding: .4rem .55rem; border-radius: 2px;
+      cursor: none; color: var(--dust); font-size: .9rem;
+      transition: all .2s;
+    }
+    .toggle-btn.active {
+      background: var(--espresso); border-color: var(--espresso); color: var(--cream);
+    }
+
+    /* ─── LAYOUT ─── */
+    .shop-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 0;
+      align-items: start;
+    }
+
+    /* ─── SIDEBAR FILTERS ─── */
+    .sidebar {
+      padding: 2.5rem 2rem 2.5rem 5rem;
+      position: sticky; top: 5rem;
+      border-right: 1px solid rgba(212,184,150,.2);
+    }
+    .sidebar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: .95rem; font-weight: 700; color: var(--espresso);
+      margin-bottom: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .clear-btn {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .85rem;
+      color: var(--terra); background: none; border: none;
+      cursor: none; transition: color .2s;
+    }
+    .clear-btn:hover { color: var(--brick); }
+
+    .filter-group { margin-bottom: 2rem; }
+    .filter-group-title {
+      font-size: .72rem; font-weight: 500;
+      letter-spacing: .09em; text-transform: uppercase;
+      color: var(--olive); margin-bottom: .9rem;
+      padding-bottom: .6rem;
+      border-bottom: 1px solid rgba(212,184,150,.3);
+    }
+
+    .check-item {
+      display: flex; align-items: center; gap: .65rem;
+      margin-bottom: .6rem; cursor: none;
+    }
+    .check-item input[type="checkbox"] {
+      accent-color: var(--brick); width: 14px; height: 14px; cursor: none;
+    }
+    .check-label {
+      font-size: .83rem; color: var(--olive);
+      transition: color .2s; user-select: none;
+    }
+    .check-item:hover .check-label { color: var(--espresso); }
+    .check-count {
+      margin-left: auto; font-size: .72rem;
+      color: var(--dust);
+    }
+
+    /* Price range */
+    .price-range {
+      display: flex; gap: .5rem; align-items: center;
+      margin-top: .5rem;
+    }
+    .price-input {
+      flex: 1; padding: .45rem .6rem;
+      border: 1.5px solid rgba(212,184,150,.4);
+      background: var(--warm); color: var(--ink);
+      font-family: 'DM Sans', sans-serif; font-size: .8rem;
+      border-radius: 2px; outline: none;
+      transition: border-color .2s;
+    }
+    .price-input:focus { border-color: var(--terra); }
+    .price-sep { color: var(--dust); font-size: .8rem; }
+
+    /* Color swatches filter */
+    .color-grid {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+      margin-top: .3rem;
+    }
+    .color-swatch {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 2.5px solid transparent;
+      cursor: none; transition: transform .2s, border-color .2s;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.12);
+    }
+    .color-swatch:hover { transform: scale(1.15); }
+    .color-swatch.selected { border-color: var(--brick); }
+
+    /* ─── PRODUCTS AREA ─── */
+    .products-area {
+      padding: 2.5rem 5rem 2.5rem 3rem;
+    }
+
+    /* Grid mode */
+    .prod-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      transition: all .3s;
+    }
+    .prod-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .prod-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+    /* List mode */
+    .prod-grid.list-mode {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .prod-grid.list-mode .prod-card {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+    }
+    .prod-grid.list-mode .prod-img { height: 180px; }
+    .prod-grid.list-mode .prod-info {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 1.5rem 2rem;
+    }
+
+    /* Card */
+    .prod-card {
+      background: #fff;
+      border-radius: 4px; overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+      cursor: none;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .5s forwards;
+    }
+    .prod-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(61,35,20,.12);
+    }
+    /* Stagger */
+    .prod-card:nth-child(1)  { animation-delay: .05s; }
+    .prod-card:nth-child(2)  { animation-delay: .10s; }
+    .prod-card:nth-child(3)  { animation-delay: .15s; }
+    .prod-card:nth-child(4)  { animation-delay: .20s; }
+    .prod-card:nth-child(5)  { animation-delay: .25s; }
+    .prod-card:nth-child(6)  { animation-delay: .30s; }
+    .prod-card:nth-child(7)  { animation-delay: .35s; }
+    .prod-card:nth-child(8)  { animation-delay: .40s; }
+    .prod-card:nth-child(9)  { animation-delay: .45s; }
+    .prod-card:nth-child(10) { animation-delay: .50s; }
+    .prod-card:nth-child(11) { animation-delay: .55s; }
+    .prod-card:nth-child(12) { animation-delay: .60s; }
+
+    .prod-img {
+      height: 220px; position: relative; overflow: hidden;
+    }
+    .prod-img-bg {
+      position: absolute; inset: 0;
+      transition: transform .5s;
+    }
+    .prod-card:hover .prod-img-bg { transform: scale(1.08); }
+
+    /* Per-product gradients */
+    .bg-1  { background: linear-gradient(160deg, #E8D5C4 0%, #C4A882 50%, #9C7450 100%); }
+    .bg-2  { background: linear-gradient(160deg, #D4C8B8 0%, #A8937E 50%, #7A6350 100%); }
+    .bg-3  { background: linear-gradient(160deg, #F0E0D0 0%, #D4A880 50%, #B07850 100%); }
+    .bg-4  { background: linear-gradient(160deg, #C8D4C0 0%, #A0B090 50%, #708060 100%); }
+    .bg-5  { background: linear-gradient(160deg, #E0D0E8 0%, #B8A0C8 50%, #8870A0 100%); }
+    .bg-6  { background: linear-gradient(160deg, #D0E8D8 0%, #90C0A0 50%, #508060 100%); }
+    .bg-7  { background: linear-gradient(160deg, #E8E0C8 0%, #C8B070 50%, #907030 100%); }
+    .bg-8  { background: linear-gradient(160deg, #E8C8C8 0%, #C89090 50%, #905050 100%); }
+    .bg-9  { background: linear-gradient(160deg, #C8D8E8 0%, #8098B8 50%, #406080 100%); }
+    .bg-10 { background: linear-gradient(160deg, #EEE8D8 0%, #D4C090 50%, #A88C50 100%); }
+    .bg-11 { background: linear-gradient(160deg, #D8E8E0 0%, #A0C8B8 50%, #609080 100%); }
+    .bg-12 { background: linear-gradient(160deg, #F0E8D8 0%, #D8C0A0 50%, #B09070 100%); }
+
+    .prod-tag {
+      position: absolute; top: .9rem; left: .9rem;
+      background: var(--brick); color: #fff;
+      font-size: .65rem; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: .25rem .6rem; border-radius: 2px;
+    }
+    .prod-tag.novo   { background: var(--brick); }
+    .prod-tag.off    { background: #5a7a3a; }
+    .prod-tag.excl   { background: var(--espresso); }
+    .prod-tag.lim    { background: var(--terra); }
+
+    .prod-fav {
+      position: absolute; top: .8rem; right: .9rem;
+      font-size: 1rem; cursor: none;
+      background: rgba(255,255,255,.8);
+      border: none; border-radius: 50%;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, transform .2s;
+    }
+    .prod-fav:hover { background: #fff; transform: scale(1.15); }
+    .prod-fav.active { color: #e05555; }
+
+    .prod-info { padding: 1.1rem 1.2rem 1.3rem; }
+    .prod-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--espresso); margin-bottom: .25rem;
+    }
+    .prod-sub { font-size: .78rem; color: var(--olive); margin-bottom: .7rem; }
+    .prod-bottom { display: flex; align-items: center; justify-content: space-between; }
+    .prod-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; color: var(--brick);
+    }
+    .prod-price small {
+      font-size: .75rem; color: var(--dust);
+      text-decoration: line-through; margin-left: .4rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .prod-swatches { display: flex; gap: .35rem; }
+    .swatch {
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.8);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.15);
+    }
+
+    /* Quick-add on hover */
+    .prod-quick {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: var(--brick); color: var(--cream);
+      font-size: .72rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+      text-align: center; padding: .6rem;
+      transform: translateY(100%);
+      transition: transform .25s;
+      cursor: none;
+    }
+    .prod-card:hover .prod-quick { transform: translateY(0); }
+
+    /* ─── LOAD MORE ─── */
+    .load-more-wrap {
+      text-align: center; padding: 3rem 0 5rem;
+    }
+    .load-more-btn {
+      background: none;
+      border: 1.5px solid var(--brick);
+      color: var(--brick);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .9rem 2.8rem; border-radius: 2px;
+      cursor: none; transition: all .25s;
+    }
+    .load-more-btn:hover {
+      background: var(--brick); color: var(--cream);
+    }
+    .load-more-count {
+      margin-top: 1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .9rem; color: var(--dust);
+    }
+
+    /* Progress bar */
+    .load-bar {
+      width: 200px; height: 2px;
+      background: rgba(212,184,150,.3);
+      margin: 1.2rem auto 0;
+      border-radius: 2px;
+    }
+    .load-bar-fill {
+      height: 100%; width: 33%;
+      background: var(--terra); border-radius: 2px;
+      transition: width .5s;
+    }
+
+    /* ─── EMPTY STATE ─── */
+    .empty-state {
+      display: none;
+      flex-direction: column; align-items: center; justify-content: center;
+      padding: 6rem 2rem; text-align: center;
+    }
+    .empty-state.show { display: flex; }
+    .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: .5; }
+    .empty-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; color: var(--espresso); margin-bottom: .5rem;
+    }
+    .empty-text { font-size: .88rem; color: var(--olive); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink); color: var(--dust);
+      padding: 4rem 5rem 2rem;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-brand .logo-name { color: var(--blush); }
+    .footer-brand .logo-tag { color: var(--dust); }
+    .footer-about { font-size: .83rem; font-weight: 300; line-height: 1.7; margin-top: 1rem; color: var(--dust); }
+    .footer-col h4 { font-family: 'Playfair Display', serif; font-size: .95rem; color: var(--cream); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .footer-col ul a { text-decoration: none; font-size: .83rem; color: var(--dust); transition: color .2s; }
+    .footer-col ul a:hover { color: var(--blush); }
+    .footer-bar {
+      border-top: 1px solid rgba(255,255,255,.08); padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .75rem; color: rgba(200,180,165,.5);
+    }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1100px) {
+      .shop-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .products-area { padding: 2rem 1.5rem; }
+      .prod-grid { grid-template-columns: repeat(2, 1fr); }
+      .prod-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 700px) {
+      header { padding: 1.2rem 1.5rem; }
+      nav, .header-btn { display: none; }
+      .hamburger { display: flex; }
+      .page-hero { padding: 7rem 1.5rem 3rem; }
+      .toolbar { padding: 1rem 1.5rem; }
+      .prod-grid { grid-template-columns: 1fr 1fr; gap: .8rem; }
+      footer { padding: 3rem 1.5rem 1.5rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+
+  <!-- ─── HEADER ─── -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/newlogo.png" alt="Pedacinho" class="logo-img" />
+      <div class="logo-texts">
+        <span class="logo-name">Pedacinho</span>
+        <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html#categorias">Categorias</a>
+      <a href="produtos.html" class="active">Produtos</a>
+      <a href="index.html#sobre">Sobre</a>
+      <a href="contato.html">Contato</a>
+      <a href="#" class="header-btn">Ver catálogo</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ─── PAGE HERO ─── -->
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div>
+        <p class="page-eyebrow">✦ Coleção completa</p>
+        <h1 class="page-title">Todos os <em>tecidos</em></h1>
+      </div>
+      <p class="page-count" id="prodCount">Mostrando 12 de 36 produtos</p>
+    </div>
+  </section>
+
+  <!-- ─── TOOLBAR ─── -->
+  <div class="toolbar">
+    <div class="filter-scroll" id="filterPills">
+      <button class="pill active" data-cat="todos">Todos</button>
+      <button class="pill" data-cat="linho">Linho & Algodão</button>
+      <button class="pill" data-cat="seda">Seda & Cetim</button>
+      <button class="pill" data-cat="malha">Malhas</button>
+      <button class="pill" data-cat="veludo">Veludo & Jacquard</button>
+      <button class="pill" data-cat="estampado">Estampados</button>
+      <button class="pill" data-cat="novidade">Novidades</button>
+      <button class="pill" data-cat="promocao">Promoções</button>
+    </div>
+    <select class="sort-select" id="sortSelect" onchange="sortProducts()">
+      <option value="destaque">Destaques</option>
+      <option value="menor">Menor preço</option>
+      <option value="maior">Maior preço</option>
+      <option value="nome">A–Z</option>
+    </select>
+    <div class="grid-toggle">
+      <button class="toggle-btn active" id="btn3" onclick="setGrid(3)" title="3 colunas">⊞</button>
+      <button class="toggle-btn" id="btn2" onclick="setGrid(2)" title="2 colunas">▤</button>
+    </div>
+  </div>
+
+  <!-- ─── SHOP ─── -->
+  <div class="shop-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-title">
+        Filtros
+        <button class="clear-btn" onclick="clearFilters()">Limpar</button>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Categoria</div>
+        <label class="check-item">
+          <input type="checkbox" checked> <span class="check-label">Linho & Algodão</span><span class="check-count">120</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox"> <span class="check-label">Seda & Cetim</span><span class="check-count">45</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox"> <span class="check-label">Malhas</span><span class="check-count">80</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox"> <span class="check-label">Veludo</span><span class="check-count">60</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox"> <span class="check-label">Estampados</span><span class="check-count">200</span>
+        </label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Preço por metro</div>
+        <div class="price-range">
+          <input class="price-input" type="number" placeholder="R$ mín" min="0">
+          <span class="price-sep">—</span>
+          <input class="price-input" type="number" placeholder="R$ máx" max="500">
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Largura</div>
+        <label class="check-item">
+          <input type="checkbox"> <span class="check-label">110 cm</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" checked> <span class="check-label">140 cm</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox"> <span class="check-label">150 cm</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox"> <span class="check-label">160 cm</span>
+        </label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Cor predominante</div>
+        <div class="color-grid">
+          <div class="color-swatch selected" style="background:#D4B896" title="Bege"></div>
+          <div class="color-swatch" style="background:#8B7355" title="Marrom"></div>
+          <div class="color-swatch" style="background:#3D2314" title="Espresso"></div>
+          <div class="color-swatch" style="background:#708060" title="Verde oliva"></div>
+          <div class="color-swatch" style="background:#406080" title="Azul"></div>
+          <div class="color-swatch" style="background:#905050" title="Vinho"></div>
+          <div class="color-swatch" style="background:#E8DDD0" title="Off-white"></div>
+          <div class="color-swatch" style="background:#B8A0C8" title="Lilás"></div>
+          <div class="color-swatch" style="background:#F0C090" title="Terracota"></div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Disponibilidade</div>
+        <label class="check-item">
+          <input type="checkbox" checked> <span class="check-label">Em estoque</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox"> <span class="check-label">Sob encomenda</span>
+        </label>
+      </div>
+    </aside>
+
+    <!-- PRODUCTS -->
+    <div class="products-area">
+      <div class="prod-grid" id="prodGrid">
+
+        <!-- Product cards -->
+        <div class="prod-card" data-cat="linho" data-price="38.90" data-name="Linho Natural Lavado">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-1"></div>
+            <span class="prod-tag novo">Novo</span>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Linho Natural Lavado</div>
+            <div class="prod-sub">largura 140 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 38,90 <small>R$ 49,90</small></div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#D4B896"></span>
+                <span class="swatch" style="background:#8B7355"></span>
+                <span class="swatch" style="background:#E8DDD0"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card" data-cat="linho" data-price="22.90" data-name="Tricoline Fio 50">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-2"></div>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Tricoline Fio 50</div>
+            <div class="prod-sub">largura 150 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 22,90</div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#A0907E"></span>
+                <span class="swatch" style="background:#D4C8B8"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card" data-cat="seda" data-price="55.90" data-name="Cetim Italiano">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-3"></div>
+            <span class="prod-tag off">-20%</span>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Cetim Italiano</div>
+            <div class="prod-sub">largura 140 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 55,90 <small>R$ 69,90</small></div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#F0E0D0"></span>
+                <span class="swatch" style="background:#C0A890"></span>
+                <span class="swatch" style="background:#704030"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card" data-cat="malha" data-price="78.90" data-name="Lã Boclé Verde Oliva">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-4"></div>
+            <span class="prod-tag excl">Exclusivo</span>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Lã Boclé Verde Oliva</div>
+            <div class="prod-sub">largura 140 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 78,90</div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#7A8060"></span>
+                <span class="swatch" style="background:#505840"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card" data-cat="veludo" data-price="92.00" data-name="Veludo Cotelê Premium">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-5"></div>
+            <span class="prod-tag lim">Limitado</span>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Veludo Cotelê Premium</div>
+            <div class="prod-sub">largura 140 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 92,00</div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#B8A0C8"></span>
+                <span class="swatch" style="background:#8870A0"></span>
+                <span class="swatch" style="background:#503878"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card" data-cat="estampado" data-price="34.50" data-name="Estampado Floral Provence">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-6"></div>
+            <span class="prod-tag novo">Novo</span>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Estampado Floral Provence</div>
+            <div class="prod-sub">largura 150 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 34,50</div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#90C0A0"></span>
+                <span class="swatch" style="background:#508060"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card" data-cat="linho" data-price="48.00" data-name="Linho Belga Puro">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-7"></div>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Linho Belga Puro</div>
+            <div class="prod-sub">largura 140 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 48,00</div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#C8B070"></span>
+                <span class="swatch" style="background:#907030"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card" data-cat="seda" data-price="118.00" data-name="Seda Pura 100%">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-8"></div>
+            <span class="prod-tag excl">Exclusivo</span>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Seda Pura 100%</div>
+            <div class="prod-sub">largura 110 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 118,00 <small>R$ 145,00</small></div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#C89090"></span>
+                <span class="swatch" style="background:#F0E0D0"></span>
+                <span class="swatch" style="background:#905050"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card" data-cat="malha" data-price="29.90" data-name="Malha Canelada Stretch">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-9"></div>
+            <span class="prod-tag off">-15%</span>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Malha Canelada Stretch</div>
+            <div class="prod-sub">largura 160 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 29,90 <small>R$ 35,00</small></div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#8098B8"></span>
+                <span class="swatch" style="background:#406080"></span>
+                <span class="swatch" style="background:#E8EEF4"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card" data-cat="estampado" data-price="42.00" data-name="Jacquard Geométrico">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-10"></div>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Jacquard Geométrico</div>
+            <div class="prod-sub">largura 140 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 42,00</div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#D4C090"></span>
+                <span class="swatch" style="background:#A88C50"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card" data-cat="veludo" data-price="85.00" data-name="Veludo Liso Esmeralda">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-11"></div>
+            <span class="prod-tag novo">Novo</span>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Veludo Liso Esmeralda</div>
+            <div class="prod-sub">largura 140 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 85,00</div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#A0C8B8"></span>
+                <span class="swatch" style="background:#609080"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card" data-cat="linho" data-price="26.50" data-name="Algodão Cru Orgânico">
+          <div class="prod-img">
+            <div class="prod-img-bg bg-12"></div>
+            <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
+            <div class="prod-quick">Adicionar ao carrinho</div>
+          </div>
+          <div class="prod-info">
+            <div class="prod-name">Algodão Cru Orgânico</div>
+            <div class="prod-sub">largura 150 cm · por metro</div>
+            <div class="prod-bottom">
+              <div class="prod-price">R$ 26,50</div>
+              <div class="prod-swatches">
+                <span class="swatch" style="background:#D8C0A0"></span>
+                <span class="swatch" style="background:#B09070"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.prod-grid -->
+
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🧵</div>
+        <div class="empty-title">Nenhum produto encontrado</div>
+        <p class="empty-text">Tente outro filtro ou categoria.</p>
+      </div>
+
+      <!-- Load more -->
+      <div class="load-more-wrap" id="loadMoreWrap">
+        <button class="load-more-btn" onclick="loadMore()">Carregar mais produtos</button>
+        <div class="load-bar"><div class="load-bar-fill" id="loadBar"></div></div>
+        <p class="load-more-count" id="loadMoreCount">12 de 36 produtos</p>
+      </div>
+    </div>
+
+  </div><!-- /.shop-layout -->
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <div class="logo-texts">
+            <span class="logo-name">Pedacinho</span>
+            <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
+          </div>
+        </a>
+        <p class="footer-about">Uma loja especializada em tecidos para quem ama criar. Do algodão ao veludo, do básico ao exclusivo.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Categorias</h4>
+        <ul>
+          <li><a href="#">Algodão & Linho</a></li>
+          <li><a href="#">Seda & Cetim</a></li>
+          <li><a href="#">Malhas</a></li>
+          <li><a href="#">Veludo</a></li>
+          <li><a href="#">Estampados</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Atendimento</h4>
+        <ul>
+          <li><a href="#">Meu pedido</a></li>
+          <li><a href="#">Política de troca</a></li>
+          <li><a href="#">Amostras</a></li>
+          <li><a href="#">Perguntas frequentes</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="#">WhatsApp</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="contato.html">E-mail</a></li>
+          <li><a href="contato.html">Nossa loja física</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>© 2026 Pedacinho. Todos os direitos reservados.</span>
+      <span>Feito por Bruno Guttervill</span>
+    </div>
+  </footer>
+
+  <script>
+    // ─── CURSOR ───
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, input, select, .prod-card, .color-swatch, .check-item').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+    });
+
+    // ─── FILTER PILLS ───
+    document.querySelectorAll('.pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        filterProducts(pill.dataset.cat);
+      });
+    });
+
+    function filterProducts(cat) {
+      const cards = document.querySelectorAll('.prod-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const match = cat === 'todos' || card.dataset.cat === cat;
+        card.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+      document.getElementById('emptyState').classList.toggle('show', visible === 0);
+      document.getElementById('loadMoreWrap').style.display = visible === 0 ? 'none' : '';
+      document.getElementById('prodCount').textContent = `Mostrando ${visible} produtos`;
+    }
+
+    // ─── SORT ───
+    function sortProducts() {
+      const val = document.getElementById('sortSelect').value;
+      const grid = document.getElementById('prodGrid');
+      const cards = [...grid.querySelectorAll('.prod-card')];
+
+      cards.sort((a, b) => {
+        if (val === 'menor') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+        if (val === 'maior') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+        if (val === 'nome')  return a.dataset.name.localeCompare(b.dataset.name);
+        return 0;
+      });
+      cards.forEach(c => grid.appendChild(c));
+    }
+
+    // ─── GRID TOGGLE ───
+    function setGrid(cols) {
+      const grid = document.getElementById('prodGrid');
+      grid.classList.remove('cols-2', 'cols-4', 'list-mode');
+      if (cols === 2) grid.classList.add('cols-2');
+      if (cols === 4) grid.classList.add('cols-4');
+      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn' + cols).classList.add('active');
+    }
+
+    // ─── LOAD MORE ───
+    let loaded = 12;
+    const total = 36;
+    function loadMore() {
+      loaded = Math.min(loaded + 12, total);
+      const pct = Math.round((loaded / total) * 100);
+      document.getElementById('loadBar').style.width = pct + '%';
+      document.getElementById('loadMoreCount').textContent = loaded + ' de ' + total + ' produtos';
+      document.getElementById('prodCount').textContent = 'Mostrando ' + loaded + ' de ' + total + ' produtos';
+      if (loaded >= total) {
+        document.getElementById('loadMoreWrap').innerHTML =
+          '<p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;color:var(--olive);font-size:1rem;">Você viu todos os produtos ✦</p>';
+      }
+    }
+
+    // ─── FAVOURITES ───
+    function toggleFav(btn) {
+      btn.classList.toggle('active');
+      btn.textContent = btn.classList.contains('active') ? '❤️' : '🤍';
+    }
+
+    // ─── COLOR SWATCHES FILTER ───
+    document.querySelectorAll('.color-swatch').forEach(s => {
+      s.addEventListener('click', () => s.classList.toggle('selected'));
+    });
+
+    function clearFilters() {
+      document.querySelectorAll('.check-item input').forEach(c => c.checked = false);
+      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+      document.querySelectorAll('.price-input').forEach(i => i.value = '');
+      document.querySelector('.pill[data-cat="todos"]').click();
+    }
+  </script>
+</body>
+</html>
