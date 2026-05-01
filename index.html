@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pedacinho</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <title>Pedacinho — Malhas, Tecidos e Aviamentos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -19,6 +19,7 @@
       --olive:    #7A7055;
       --dust:     #C9B8A8;
       --ink:      #2A1F15;
+      --white:    #ffffff;
     }
 
     html { scroll-behavior: smooth; }
@@ -31,1035 +32,1199 @@
       cursor: none;
     }
 
-    /* Custom cursor */
     #cursor {
       position: fixed;
-      width: 12px; height: 12px;
+      width: 10px; height: 10px;
       background: var(--terra);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
       transform: translate(-50%, -50%);
-      transition: width .2s, height .2s, background .2s;
+      transition: width .18s, height .18s, background .18s;
       mix-blend-mode: multiply;
     }
-    #cursor.big {
-      width: 48px; height: 48px;
-      background: var(--blush);
-    }
+    #cursor.grow { width: 44px; height: 44px; background: var(--blush); }
 
-    /* ─── NOISE OVERLAY ─── */
-    body::before {
+    body::after {
       content: '';
       position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: .035;
+      opacity: .03;
       pointer-events: none;
-      z-index: 9998;
+      z-index: 9000;
     }
 
-    /* ─── HEADER ─── */
-    header {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
+    /* HEADER */
+    #site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1.4rem 3rem;
-      background: transparent;
-      transition: background .4s, box-shadow .4s;
+      padding: 1.2rem 3rem;
+      transition: background .35s, box-shadow .35s;
     }
-    header.scrolled {
-      background: rgba(245,239,228,.92);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 1px 0 rgba(184,121,74,.15);
+    #site-header.solid {
+      background: rgba(245,239,228,.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 1px 0 rgba(184,121,74,.12);
     }
 
     .logo {
-  display: flex;
-  flex-direction: row;   /* ← era "column", agora coloca lado a lado */
-  align-items: center;
-  gap: 0.7rem;
-  text-decoration: none;
-}
-
-.logo-img {
-  height: 44px;
-  width: auto;
-  object-fit: contain;
-  mix-blend-mode: multiply; /* ← funde o fundo branco com o fundo do header */
-}
-
-.logo-texts {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
+      display: flex; align-items: center; gap: .7rem;
+      text-decoration: none;
+    }
+    .logo img { height: 40px; width: auto; object-fit: contain; mix-blend-mode: multiply; }
+    .logo-text { display: flex; flex-direction: column; }
     .logo-name {
       font-family: 'Playfair Display', serif;
-      font-size: 1.7rem; font-weight: 700;
-      color: var(--brick);
-      letter-spacing: -.02em;
-      line-height: 1;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--brick); letter-spacing: -.02em; line-height: 1;
     }
     .logo-tag {
       font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: .85rem; color: var(--olive);
-      letter-spacing: .08em;
+      font-style: italic; font-size: .8rem;
+      color: var(--olive); letter-spacing: .07em;
     }
 
-    nav { display: flex; gap: 2.2rem; }
-    nav a {
-      text-decoration: none;
-      font-size: .82rem; font-weight: 500;
-      color: var(--espresso);
-      letter-spacing: .06em;
-      text-transform: uppercase;
+    .main-nav { display: flex; align-items: center; gap: 2rem; }
+    .main-nav a {
+      text-decoration: none; font-size: .8rem; font-weight: 500;
+      color: var(--espresso); letter-spacing: .07em; text-transform: uppercase;
       position: relative;
     }
-    nav a::after {
-      content: '';
-      position: absolute; bottom: -3px; left: 0;
-      width: 0; height: 1.5px;
-      background: var(--terra);
-      transition: width .3s;
+    .main-nav a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1.5px; background: var(--terra); transition: width .28s;
     }
-    nav a:hover::after { width: 100%; }
+    .main-nav a:hover::after { width: 100%; }
 
-    .header-btn {
-      background: var(--brick);
-      color: var(--cream) !important;
-      padding: .5rem 1.3rem;
-      border-radius: 2px;
-      font-size: .78rem !important;
-      letter-spacing: .1em !important;
-      transition: background .25s !important;
-    }
-    .header-btn::after { display: none !important; }
-    .header-btn:hover { background: var(--espresso) !important; }
-
-    /* ─── HERO ─── */
-    #hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-left {
-      display: flex; flex-direction: column;
-      justify-content: flex-end;
-      padding: 8rem 4rem 6rem 5rem;
-      position: relative; z-index: 2;
-    }
-
-    .hero-eyebrow {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-size: 1rem;
-      color: var(--olive);
-      letter-spacing: .12em;
-      margin-bottom: 1.2rem;
-      opacity: 0; transform: translateY(20px);
-      animation: fadeUp .7s .3s forwards;
-    }
-
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 5.5vw, 5.5rem);
-      font-weight: 700;
-      line-height: 1.05;
-      color: var(--espresso);
-      margin-bottom: 1.8rem;
-      opacity: 0; transform: translateY(30px);
-      animation: fadeUp .8s .5s forwards;
-    }
-    .hero-title em {
-      font-style: italic;
-      color: var(--brick);
-    }
-
-    .hero-desc {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem; font-weight: 300;
-      color: var(--olive);
-      line-height: 1.7;
-      max-width: 380px;
-      margin-bottom: 2.8rem;
-      opacity: 0; transform: translateY(20px);
-      animation: fadeUp .7s .7s forwards;
-    }
-
-    .hero-actions {
-      display: flex; gap: 1.2rem; align-items: center;
-      opacity: 0; animation: fadeUp .7s .9s forwards;
-    }
-
-    .btn-primary {
-      background: var(--brick);
-      color: var(--cream);
-      text-decoration: none;
-      padding: .9rem 2.4rem;
-      font-size: .82rem; font-weight: 500;
-      letter-spacing: .1em; text-transform: uppercase;
-      border-radius: 2px;
-      transition: background .25s, transform .2s;
-      display: inline-block;
-    }
-    .btn-primary:hover { background: var(--espresso); transform: translateY(-2px); }
-
-    .btn-ghost {
-      color: var(--brick);
-      text-decoration: none;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-size: 1.1rem;
-      display: flex; align-items: center; gap: .5rem;
-      transition: gap .25s;
-    }
-    .btn-ghost:hover { gap: .9rem; }
-    .btn-ghost .arr { font-style: normal; }
-
-    /* Hero right — fabric visual */
-    .hero-right {
-      position: relative; overflow: hidden;
-    }
-    .hero-right::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, var(--blush) 0%, var(--sand) 40%, var(--terra) 100%);
-      z-index: 0;
-    }
-
-    /* Woven grid pattern */
-    .hero-right::after {
-      content: '';
-      position: absolute; inset: 0; z-index: 1;
-      background-image:
-        repeating-linear-gradient(0deg, transparent, transparent 18px, rgba(255,255,255,.08) 18px, rgba(255,255,255,.08) 20px),
-        repeating-linear-gradient(90deg, transparent, transparent 18px, rgba(255,255,255,.08) 18px, rgba(255,255,255,.08) 20px);
-    }
-
-    .fabric-circles {
-      position: absolute; inset: 0; z-index: 2;
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    .fc {
-      position: absolute;
-      border-radius: 50%;
-      opacity: .22;
-      animation: float 8s ease-in-out infinite;
-    }
-    .fc:nth-child(1) { width: 480px; height: 480px; background: radial-gradient(circle, var(--cream) 0%, transparent 70%); top: 10%; left: 15%; animation-delay: 0s; }
-    .fc:nth-child(2) { width: 300px; height: 300px; background: radial-gradient(circle, var(--espresso) 0%, transparent 70%); top: 50%; left: 50%; animation-delay: 2s; }
-    .fc:nth-child(3) { width: 200px; height: 200px; background: radial-gradient(circle, var(--blush) 0%, transparent 70%); top: 20%; left: 60%; animation-delay: 4s; }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50%       { transform: translateY(-18px) scale(1.04); }
-    }
-
-    .hero-badge {
-      position: absolute; bottom: 3rem; right: 3rem;
-      z-index: 3;
-      width: 110px; height: 110px;
-      border-radius: 50%;
-      background: var(--espresso);
-      color: var(--cream);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      animation: spin 20s linear infinite;
-    }
-    .hero-badge-inner {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: .72rem; line-height: 1.4;
-      letter-spacing: .04em;
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    /* diagonal separator */
-    #hero .diagonal {
-      position: absolute; bottom: -1px; left: 0; right: 0; z-index: 10;
-      height: 80px;
-    }
-
-    /* ─── STATS BAR ─── */
-    #stats {
-      background: var(--espresso);
-      color: var(--cream);
-      display: flex; justify-content: center;
-      padding: 2.4rem 4rem;
-      gap: 5rem;
-      position: relative; z-index: 5;
-    }
-    .stat { text-align: center; }
-    .stat-n {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.4rem; font-weight: 700;
-      color: var(--blush);
-      line-height: 1;
-    }
-    .stat-l {
-      font-size: .75rem; font-weight: 300;
-      letter-spacing: .1em; text-transform: uppercase;
-      color: var(--dust);
-      margin-top: .3rem;
-    }
-
-    /* ─── CATEGORIES ─── */
-    #categories {
-      padding: 7rem 5rem;
-      position: relative;
-    }
-
-    .section-header {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      margin-bottom: 3.5rem;
-    }
-    .section-eyebrow {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-size: .95rem;
-      color: var(--terra);
-      letter-spacing: .1em;
-      margin-bottom: .4rem;
-    }
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      font-weight: 700;
-      color: var(--espresso);
-      line-height: 1.1;
-    }
-    .section-link {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-size: 1rem;
-      color: var(--olive);
-      text-decoration: none;
-      border-bottom: 1px solid var(--dust);
-      padding-bottom: 2px;
-      transition: color .25s, border-color .25s;
-    }
-    .section-link:hover { color: var(--brick); border-color: var(--brick); }
-
-    .cat-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      grid-template-rows: 260px 260px;
-      gap: 1rem;
-    }
-
-    .cat-card {
-      position: relative; overflow: hidden;
-      border-radius: 4px;
-      cursor: none;
-    }
-    .cat-card:first-child { grid-row: 1 / 3; }
-
-    .cat-bg {
-      position: absolute; inset: 0;
-      transition: transform .6s cubic-bezier(.25,.46,.45,.94);
-    }
-    .cat-card:hover .cat-bg { transform: scale(1.06); }
-
-    .cat-card:nth-child(1) .cat-bg { background: linear-gradient(135deg, #C8956A 0%, #8B5E3C 100%); }
-    .cat-card:nth-child(2) .cat-bg { background: linear-gradient(135deg, #B8A99A 0%, #7A6555 100%); }
-    .cat-card:nth-child(3) .cat-bg { background: linear-gradient(135deg, #D4C5B0 0%, #9A8878 100%); }
-    .cat-card:nth-child(4) .cat-bg { background: linear-gradient(135deg, #C4B5A0 0%, #6B5A4E 100%); }
-    .cat-card:nth-child(5) .cat-bg { background: linear-gradient(135deg, #E8D5C4 0%, #B08070 100%); }
-
-    /* fabric weave pattern on cards */
-    .cat-card::before {
-      content: '';
-      position: absolute; inset: 0; z-index: 1;
-      background-image:
-        repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(255,255,255,.04) 6px, rgba(255,255,255,.04) 7px),
-        repeating-linear-gradient(90deg, transparent, transparent 6px, rgba(255,255,255,.04) 6px, rgba(255,255,255,.04) 7px);
-    }
-
-    .cat-info {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      z-index: 2;
-      padding: 1.8rem;
-      background: linear-gradient(to top, rgba(30,15,5,.65) 0%, transparent 100%);
-    }
-    .cat-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem; font-weight: 700;
-      color: #fff;
-      margin-bottom: .3rem;
-    }
-    .cat-count {
-      font-size: .75rem; font-weight: 300;
-      letter-spacing: .08em; text-transform: uppercase;
-      color: rgba(255,255,255,.7);
-    }
-
-    /* emoji icons on cards */
-    .cat-icon {
-      position: absolute; top: 1.5rem; left: 1.5rem;
-      z-index: 2;
-      font-size: 2rem;
-      opacity: .85;
-    }
-    .cat-card:first-child .cat-icon { font-size: 3rem; }
-
-    /* ─── FEATURE STRIP ─── */
-    #features {
-      background: var(--warm);
-      padding: 3rem 5rem;
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-    }
-    .feat {
-      display: flex; align-items: flex-start; gap: 1rem;
-    }
-    .feat-icon {
-      font-size: 1.6rem; flex-shrink: 0;
-      margin-top: .1rem;
-    }
-    .feat-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem; font-weight: 700;
-      color: var(--espresso);
-      margin-bottom: .3rem;
-    }
-    .feat-desc {
-      font-size: .82rem; font-weight: 300;
-      color: var(--olive);
-      line-height: 1.6;
-    }
-
-    /* ─── PRODUCTS ─── */
-    #produtos {
-      padding: 7rem 5rem;
-    }
-
-    .prod-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.4rem;
-      margin-top: 3.5rem;
-    }
-
-    .prod-card {
-      background: #fff;
-      border-radius: 4px;
-      overflow: hidden;
-      transition: transform .3s, box-shadow .3s;
-      cursor: none;
-    }
-    .prod-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 50px rgba(61,35,20,.12);
-    }
-
-    .prod-img {
-      height: 220px;
-      position: relative; overflow: hidden;
-    }
-    .prod-img-bg {
-      position: absolute; inset: 0;
-      transition: transform .5s;
-    }
-    .prod-card:hover .prod-img-bg { transform: scale(1.08); }
-
-    .prod-card:nth-child(1) .prod-img-bg { background: linear-gradient(160deg, #E8D5C4 0%, #C4A882 50%, #9C7450 100%); }
-    .prod-card:nth-child(2) .prod-img-bg { background: linear-gradient(160deg, #D4C8B8 0%, #A8937E 50%, #7A6350 100%); }
-    .prod-card:nth-child(3) .prod-img-bg { background: linear-gradient(160deg, #F0E0D0 0%, #D4A880 50%, #B07850 100%); }
-    .prod-card:nth-child(4) .prod-img-bg { background: linear-gradient(160deg, #C8D4C0 0%, #A0B090 50%, #708060 100%); }
-
-    .prod-tag {
-      position: absolute; top: .9rem; left: .9rem;
-      background: var(--brick);
-      color: #fff;
-      font-size: .65rem; font-weight: 500;
-      letter-spacing: .08em; text-transform: uppercase;
-      padding: .25rem .6rem;
-      border-radius: 2px;
-    }
-    .prod-fav {
-      position: absolute; top: .8rem; right: .9rem;
-      font-size: 1.1rem; cursor: none;
-      background: rgba(255,255,255,.8);
-      border: none; border-radius: 50%;
-      width: 32px; height: 32px;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .2s, transform .2s;
-    }
-    .prod-fav:hover { background: #fff; transform: scale(1.15); }
-    .prod-fav.active { color: #e05555; }
-
-    .prod-info { padding: 1.1rem 1.2rem 1.3rem; }
-    .prod-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem; font-weight: 700;
-      color: var(--espresso);
-      margin-bottom: .3rem;
-    }
-    .prod-sub {
-      font-size: .78rem; color: var(--olive);
-      margin-bottom: .8rem;
-    }
-    .prod-price {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.25rem; font-weight: 400;
-      color: var(--brick);
-    }
-    .prod-price small {
-      font-size: .78rem; color: var(--dust);
-      text-decoration: line-through;
-      margin-left: .4rem;
-      font-family: 'DM Sans', sans-serif;
-    }
-    .prod-swatches {
-      display: flex; gap: .4rem; margin-top: .6rem;
-    }
-    .swatch {
-      width: 16px; height: 16px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,.8);
-      box-shadow: 0 0 0 1px rgba(0,0,0,.15);
-    }
-
-    /* ─── EDITORIAL SECTION ─── */
-    #editorial {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 520px;
-    }
-
-    .edit-visual {
-      background: linear-gradient(135deg, var(--terra) 0%, var(--espresso) 100%);
-      position: relative; overflow: hidden;
-    }
-    .edit-visual::after {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,.03) 10px, rgba(255,255,255,.03) 12px),
-        repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255,255,255,.03) 10px, rgba(255,255,255,.03) 12px);
-    }
-    .edit-quote {
-      position: absolute; z-index: 2;
-      bottom: 3rem; left: 3rem; right: 3rem;
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 2rem; font-weight: 400;
-      color: var(--cream);
-      line-height: 1.3;
-    }
-    .edit-quote::before {
-      content: '"';
-      font-size: 6rem; line-height: .5;
-      color: var(--sand); opacity: .3;
-      display: block; margin-bottom: 1rem;
-    }
-
-    .edit-text {
-      background: var(--warm);
-      padding: 5rem 4.5rem;
-      display: flex; flex-direction: column; justify-content: center;
-    }
-    .edit-text .section-eyebrow { margin-bottom: .6rem; }
-    .edit-text .section-title { margin-bottom: 1.5rem; }
-    .edit-body {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem; font-weight: 300;
-      color: var(--olive); line-height: 1.8;
-      margin-bottom: 2rem;
-    }
-
-    /* ─── NEWSLETTER ─── */
-    #newsletter {
-      background: var(--espresso);
-      padding: 5rem;
-      text-align: center;
-    }
-    #newsletter .section-eyebrow { color: var(--blush); }
-    #newsletter .section-title { color: var(--cream); margin-bottom: 1rem; }
-    .news-sub {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-size: 1.1rem;
-      color: var(--dust);
-      margin-bottom: 2.5rem;
-    }
-    .news-form {
-      display: flex; gap: 0;
-      max-width: 480px; margin: 0 auto;
-    }
-    .news-input {
-      flex: 1;
-      padding: .9rem 1.4rem;
-      border: 1.5px solid var(--sand);
-      background: transparent;
-      color: var(--cream);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .9rem;
-      outline: none;
-      border-right: none;
-      border-radius: 2px 0 0 2px;
-    }
-    .news-input::placeholder { color: var(--dust); }
-    .news-btn {
-      background: var(--terra);
-      color: var(--cream);
-      border: none;
-      padding: .9rem 1.8rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .8rem; font-weight: 500;
-      letter-spacing: .1em; text-transform: uppercase;
-      cursor: none;
-      border-radius: 0 2px 2px 0;
-      transition: background .25s;
-    }
-    .news-btn:hover { background: var(--brick); }
-
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--ink);
-      color: var(--dust);
-      padding: 4rem 5rem 2rem;
-    }
-    .footer-grid {
-      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 3rem; margin-bottom: 3rem;
-    }
-    .footer-brand .logo-name { color: var(--blush); }
-    .footer-brand .logo-tag { color: var(--dust); }
-    .footer-about {
-      font-size: .83rem; font-weight: 300;
-      line-height: 1.7; margin-top: 1rem;
-      color: var(--dust);
-    }
-    .footer-col h4 {
-      font-family: 'Playfair Display', serif;
-      font-size: .95rem; color: var(--cream);
-      margin-bottom: 1.2rem;
-    }
-    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
-    .footer-col ul a {
-      text-decoration: none; font-size: .83rem;
-      color: var(--dust);
-      transition: color .2s;
-    }
-    .footer-col ul a:hover { color: var(--blush); }
-    .footer-bar {
-      border-top: 1px solid rgba(255,255,255,.08);
-      padding-top: 1.5rem;
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: .75rem; color: rgba(200,180,165,.5);
-    }
-
-    /* ─── MOBILE NAV TOGGLE ─── */
     .hamburger {
-      display: none;
-      flex-direction: column; gap: 5px;
-      cursor: none; background: none; border: none;
-      padding: .3rem;
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: none; padding: .25rem;
     }
     .hamburger span {
       display: block; width: 22px; height: 2px;
-      background: var(--espresso);
+      background: var(--espresso); border-radius: 1px;
       transition: transform .3s, opacity .3s;
     }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    /* ─── ANIMATIONS ─── */
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
+    .mobile-drawer {
+      display: none;
+      position: fixed; inset: 0; z-index: 490;
+      background: rgba(245,239,228,.98);
+      flex-direction: column; align-items: center; justify-content: center; gap: 2.4rem;
     }
+    .mobile-drawer.open { display: flex; }
+    .mobile-drawer a {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 700;
+      color: var(--espresso); text-decoration: none;
+    }
+    .mobile-drawer a:hover { color: var(--brick); }
 
     .reveal {
-      opacity: 0; transform: translateY(30px);
-      transition: opacity .7s, transform .7s;
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .65s ease, transform .65s ease;
     }
-    .reveal.in { opacity: 1; transform: none; }
+    .reveal.visible { opacity: 1; transform: none; }
 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      #hero { grid-template-columns: 1fr; }
-      .hero-right { height: 320px; }
-      .hero-left { padding: 7rem 2rem 3rem; }
-      .cat-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
-      .cat-card:first-child { grid-row: auto; grid-column: 1 / 3; }
-      .prod-grid { grid-template-columns: 1fr 1fr; }
-      #features { grid-template-columns: 1fr 1fr; }
-      #editorial { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-      header { padding: 1.2rem 1.5rem; }
-      nav, .header-btn { display: none; }
+    .eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .95rem;
+      color: var(--terra); letter-spacing: .1em;
+      display: block; margin-bottom: .5rem;
+    }
+    .heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700; color: var(--espresso); line-height: 1.1;
+    }
+    .heading em { font-style: italic; color: var(--brick); }
+
+    .btn {
+      display: inline-block; text-decoration: none;
+      padding: .85rem 2.2rem; border-radius: 2px;
+      font-size: .8rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      transition: background .22s, transform .18s;
+    }
+    .btn-solid { background: var(--brick); color: var(--cream); }
+    .btn-solid:hover { background: var(--espresso); transform: translateY(-2px); }
+
+    /* HERO */
+    #inicio {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      overflow: hidden; position: relative;
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 8rem 4rem 6rem 5rem; position: relative; z-index: 2;
+    }
+    .hero-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1rem;
+      color: var(--olive); letter-spacing: .12em; margin-bottom: 1.2rem;
+      opacity: 0; transform: translateY(18px);
+      animation: fade-up .7s .3s forwards;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5.5vw, 5.5rem);
+      font-weight: 700; line-height: 1.04;
+      color: var(--espresso); margin-bottom: 1.6rem;
+      opacity: 0; transform: translateY(26px);
+      animation: fade-up .8s .5s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--brick); }
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 300;
+      color: var(--olive); line-height: 1.7;
+      max-width: 360px;
+      opacity: 0; transform: translateY(18px);
+      animation: fade-up .7s .7s forwards;
+    }
+
+    .hero-right { position: relative; overflow: hidden; }
+    .hero-right::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--blush) 0%, var(--sand) 40%, var(--terra) 100%);
+    }
+    .hero-right::after {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 18px, rgba(255,255,255,.07) 18px, rgba(255,255,255,.07) 19px),
+        repeating-linear-gradient(90deg, transparent, transparent 18px, rgba(255,255,255,.07) 18px, rgba(255,255,255,.07) 19px);
+    }
+    .hero-badge {
+      position: absolute; bottom: 2.8rem; right: 2.8rem; z-index: 3;
+      width: 108px; height: 108px; border-radius: 50%;
+      background: var(--espresso); color: var(--cream);
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      animation: spin-slow 22s linear infinite;
+    }
+    .hero-badge span {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .7rem; line-height: 1.5; letter-spacing: .04em;
+    }
+    .hero-blob {
+      position: absolute; border-radius: 50%; z-index: 2;
+      opacity: .2; animation: float-blob 9s ease-in-out infinite;
+    }
+    .hero-blob-1 { width: 420px; height: 420px; background: radial-gradient(circle, var(--cream) 0%, transparent 70%); top: 5%; left: 10%; }
+    .hero-blob-2 { width: 280px; height: 280px; background: radial-gradient(circle, var(--espresso) 0%, transparent 70%); top: 55%; left: 45%; animation-delay: 2s; }
+    .hero-blob-3 { width: 180px; height: 180px; background: radial-gradient(circle, var(--blush) 0%, transparent 70%); top: 15%; left: 58%; animation-delay: 4.5s; }
+    .hero-diagonal { position: absolute; bottom: -1px; left: 0; right: 0; z-index: 10; height: 70px; }
+
+    @keyframes fade-up { to { opacity: 1; transform: none; } }
+    @keyframes spin-slow { to { transform: rotate(360deg); } }
+    @keyframes float-blob {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-20px) scale(1.05); }
+    }
+
+    /* STATS */
+    #stats {
+      background: var(--espresso); color: var(--cream);
+      display: flex; justify-content: center; flex-wrap: wrap;
+      gap: 1rem; padding: 2.4rem 4rem;
+    }
+    .stat-item { text-align: center; padding: .6rem 2.5rem; }
+    .stat-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem; font-weight: 700; color: var(--blush); line-height: 1;
+    }
+    .stat-l {
+      font-size: .73rem; font-weight: 300;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--dust); margin-top: .3rem;
+    }
+
+    /* FEATURES */
+    #features {
+      background: var(--warm); padding: 3rem 5rem;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem;
+    }
+    .feat-item { display: flex; align-items: flex-start; gap: 1rem; }
+    .feat-icon { font-size: 1.7rem; flex-shrink: 0; }
+    .feat-name {
+      font-family: 'Playfair Display', serif;
+      font-size: .98rem; font-weight: 700; color: var(--espresso); margin-bottom: .3rem;
+    }
+    .feat-desc { font-size: .82rem; color: var(--olive); line-height: 1.6; }
+
+    .section-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 3rem;
+    }
+
+    /* CATEGORIAS */
+    #categorias { background: var(--cream); padding: 7rem 5rem; }
+
+    .group-tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.8rem; }
+    .gtab {
+      background: none; border: 1.5px solid rgba(212,184,150,.5);
+      color: var(--olive); font-family: 'DM Sans', sans-serif;
+      font-size: .75rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+      padding: .45rem 1.1rem; border-radius: 2px; cursor: none; transition: all .2s;
+    }
+    .gtab:hover { border-color: var(--terra); color: var(--terra); }
+    .gtab.on { background: var(--espresso); border-color: var(--espresso); color: var(--cream); }
+
+    .cat-group { margin-bottom: 3.5rem; }
+    .cat-group:last-child { margin-bottom: 0; }
+    .cat-group-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700; color: var(--espresso);
+      margin-bottom: 1.2rem; padding-bottom: .7rem;
+      border-bottom: 1px solid rgba(212,184,150,.35);
+      display: flex; align-items: center; gap: .8rem;
+    }
+    .cat-group-title .g-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .85rem; color: var(--terra); font-weight: 400;
+    }
+
+    .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+
+    .cat-card {
+      position: relative; border-radius: 6px; overflow: hidden;
+      height: 185px; text-decoration: none; display: block;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .cat-card:hover { transform: translateY(-4px); box-shadow: 0 18px 50px rgba(61,35,20,.16); }
+    .cat-card .cc-bg { position: absolute; inset: 0; transition: transform .55s cubic-bezier(.25,.46,.45,.94); }
+    .cat-card:hover .cc-bg { transform: scale(1.06); }
+    .cat-card::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 7px, rgba(255,255,255,.04) 7px, rgba(255,255,255,.04) 8px),
+        repeating-linear-gradient(90deg, transparent, transparent 7px, rgba(255,255,255,.04) 7px, rgba(255,255,255,.04) 8px);
+    }
+    .cat-card::after {
+      content: ''; position: absolute; inset: 0; z-index: 2;
+      background: linear-gradient(to top, rgba(15,8,3,.72) 0%, rgba(15,8,3,.08) 55%, transparent 100%);
+    }
+    .cc-icon { position: absolute; top: 1rem; left: 1.2rem; z-index: 3; font-size: 1.5rem; }
+    .cc-arrow {
+      position: absolute; top: 1rem; right: 1.1rem; z-index: 3;
+      opacity: 0; transform: translateX(-4px);
+      transition: opacity .22s, transform .22s;
+      color: rgba(255,255,255,.85); font-size: .85rem;
+    }
+    .cat-card:hover .cc-arrow { opacity: 1; transform: none; }
+    .cc-info { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; padding: 1rem 1.2rem; }
+    .cc-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: #fff; }
+    .cc-count {
+      font-size: .7rem; font-weight: 300;
+      letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.65); margin-top: .15rem;
+    }
+
+    .cc-linho      { background: linear-gradient(135deg,#C8B07A,#8B7345); }
+    .cc-algodao    { background: linear-gradient(135deg,#E8DDD0,#C4A882); }
+    .cc-organico   { background: linear-gradient(135deg,#B8C4A0,#788860); }
+    .cc-juta       { background: linear-gradient(135deg,#C0A878,#806840); }
+    .cc-seda       { background: linear-gradient(135deg,#E8C4B8,#B08070); }
+    .cc-cetim      { background: linear-gradient(135deg,#D4B8D0,#907890); }
+    .cc-veludo     { background: linear-gradient(135deg,#8898B8,#485870); }
+    .cc-jacquard   { background: linear-gradient(135deg,#C8B070,#906830); }
+    .cc-suede      { background: linear-gradient(135deg,#C8B0A0,#907060); }
+    .cc-jersey     { background: linear-gradient(135deg,#90A8C0,#506880); }
+    .cc-canelada   { background: linear-gradient(135deg,#B8D0C8,#789088); }
+    .cc-fleece     { background: linear-gradient(135deg,#D8C0B0,#A07860); }
+    .cc-moletom    { background: linear-gradient(135deg,#B0B8C8,#70788A); }
+    .cc-cotelê     { background: linear-gradient(135deg,#A0B8A8,#608070); }
+    .cc-viscose    { background: linear-gradient(135deg,#C8D0B8,#88987A); }
+    .cc-floral     { background: linear-gradient(135deg,#D0C8B0,#988870); }
+    .cc-geometrico { background: linear-gradient(135deg,#B0C8D0,#709098); }
+    .cc-listrado   { background: linear-gradient(135deg,#C8D0B8,#889878); }
+    .cc-xadrez     { background: linear-gradient(135deg,#C0B8D0,#807890); }
+    .cc-renda      { background: linear-gradient(135deg,#E0D0C8,#C0A898); }
+    .cc-tule       { background: linear-gradient(135deg,#D8E0E8,#A8B8C8); }
+    .cc-crepe      { background: linear-gradient(135deg,#D0C0B8,#A08878); }
+    .cc-oxford     { background: linear-gradient(135deg,#B8C8D8,#7890A8); }
+    .cc-tricoline  { background: linear-gradient(135deg,#D4B89A,#A07A50); }
+
+    /* PRODUTOS */
+    #produtos { background: var(--warm); padding: 7rem 5rem; }
+
+    .filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-bottom: 2.4rem; }
+    .filter-pill {
+      background: none; border: 1.5px solid rgba(212,184,150,.5);
+      color: var(--olive); font-family: 'DM Sans', sans-serif;
+      font-size: .74rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+      padding: .38rem .95rem; border-radius: 99px; cursor: none; transition: all .2s; white-space: nowrap;
+    }
+    .filter-pill:hover { border-color: var(--terra); color: var(--terra); }
+    .filter-pill.on { background: var(--brick); border-color: var(--brick); color: var(--cream); }
+
+    .prod-sort {
+      margin-left: auto;
+      background: var(--cream); border: 1.5px solid rgba(212,184,150,.45);
+      color: var(--espresso); font-family: 'DM Sans', sans-serif;
+      font-size: .76rem; padding: .4rem 1.8rem .4rem .8rem;
+      border-radius: 2px; cursor: none; outline: none; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237A7055' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right .6rem center;
+    }
+
+    .prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.3rem; }
+    .prod-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .prod-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+
+    .prod-card {
+      background: var(--white); border-radius: 6px; overflow: hidden;
+      transition: transform .28s, box-shadow .28s; cursor: none;
+    }
+    .prod-card:hover { transform: translateY(-5px); box-shadow: 0 18px 48px rgba(61,35,20,.13); }
+
+    .pc-img { height: 210px; position: relative; overflow: hidden; }
+    .pc-bg { position: absolute; inset: 0; transition: transform .45s; }
+    .prod-card:hover .pc-bg { transform: scale(1.07); }
+
+    .pc-tag {
+      position: absolute; top: .8rem; left: .8rem; z-index: 2;
+      font-size: .62rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+      padding: .22rem .55rem; border-radius: 2px; color: #fff;
+    }
+    .tag-novo { background: var(--brick); }
+    .tag-off  { background: #5a7a3a; }
+    .tag-excl { background: var(--espresso); }
+    .tag-lim  { background: var(--terra); }
+
+    .pc-fav {
+      position: absolute; top: .75rem; right: .8rem; z-index: 2;
+      background: rgba(255,255,255,.85); border: none; border-radius: 50%;
+      width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; cursor: none; transition: background .2s, transform .2s;
+    }
+    .pc-fav:hover { background: #fff; transform: scale(1.15); }
+    .pc-fav.loved { color: #e04040; }
+
+    .pc-quick {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+      background: var(--brick); color: var(--cream);
+      font-size: .7rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+      text-align: center; padding: .55rem;
+      transform: translateY(100%); transition: transform .22s; cursor: none;
+    }
+    .prod-card:hover .pc-quick { transform: none; }
+
+    .pc-body { padding: 1rem 1.1rem 1.2rem; }
+    .pc-name { font-family: 'Playfair Display', serif; font-size: .97rem; font-weight: 700; color: var(--espresso); margin-bottom: .2rem; }
+    .pc-sub { font-size: .76rem; color: var(--olive); margin-bottom: .65rem; }
+    .pc-row { display: flex; align-items: center; justify-content: space-between; }
+    .pc-price { font-family: 'Cormorant Garamond', serif; font-size: 1.18rem; color: var(--brick); }
+    .pc-price s { font-size: .73rem; color: var(--dust); font-family: 'DM Sans', sans-serif; margin-left: .35rem; }
+    .pc-swatches { display: flex; gap: .3rem; }
+    .pc-swatch {
+      width: 13px; height: 13px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.8); box-shadow: 0 0 0 1px rgba(0,0,0,.13);
+    }
+
+    .g1  { background: linear-gradient(160deg,#E8D5C4,#C4A882,#9C7450); }
+    .g2  { background: linear-gradient(160deg,#D4C8B8,#A8937E,#7A6350); }
+    .g3  { background: linear-gradient(160deg,#F0E0D0,#D4A880,#B07850); }
+    .g4  { background: linear-gradient(160deg,#C8D4C0,#A0B090,#708060); }
+    .g5  { background: linear-gradient(160deg,#E0D0E8,#B8A0C8,#8870A0); }
+    .g6  { background: linear-gradient(160deg,#D0E8D8,#90C0A0,#508060); }
+    .g7  { background: linear-gradient(160deg,#E8E0C8,#C8B070,#907030); }
+    .g8  { background: linear-gradient(160deg,#E8C8C8,#C89090,#905050); }
+    .g9  { background: linear-gradient(160deg,#C8D8E8,#8098B8,#406080); }
+    .g10 { background: linear-gradient(160deg,#EEE8D8,#D4C090,#A88C50); }
+    .g11 { background: linear-gradient(160deg,#D8E8E0,#A0C8B8,#609080); }
+    .g12 { background: linear-gradient(160deg,#F0E8D8,#D8C0A0,#B09070); }
+
+    .prod-empty { display: none; grid-column: 1/-1; padding: 5rem 2rem; text-align: center; }
+    .prod-empty.show { display: block; }
+    .prod-empty p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; color: var(--olive); }
+
+    .load-more { margin-top: 3rem; text-align: center; }
+    .load-more button {
+      background: none; border: 1.5px solid var(--brick); color: var(--brick);
+      font-family: 'DM Sans', sans-serif; font-size: .8rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .85rem 2.6rem; border-radius: 2px; cursor: none; transition: all .22s;
+    }
+    .load-more button:hover { background: var(--brick); color: var(--cream); }
+    .load-more p { margin-top: .8rem; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: .88rem; color: var(--dust); }
+
+    .grid-toggle { display: flex; gap: .3rem; }
+    .gtog {
+      background: none; border: 1.5px solid rgba(212,184,150,.4);
+      padding: .38rem .5rem; border-radius: 2px;
+      cursor: none; color: var(--dust); font-size: .88rem; transition: all .2s;
+    }
+    .gtog.on { background: var(--espresso); border-color: var(--espresso); color: var(--cream); }
+
+    /* SOBRE */
+    #sobre { display: grid; grid-template-columns: 1fr 1fr; min-height: 500px; }
+    .sobre-visual {
+      background: linear-gradient(135deg, var(--terra) 0%, var(--espresso) 100%);
+      position: relative; overflow: hidden;
+      display: flex; align-items: flex-end; padding: 3.5rem;
+    }
+    .sobre-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,.025) 10px, rgba(255,255,255,.025) 11px),
+        repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255,255,255,.025) 10px, rgba(255,255,255,.025) 11px);
+    }
+    .sobre-quote {
+      position: relative; z-index: 2;
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: 1.9rem; font-weight: 400;
+      color: var(--cream); line-height: 1.35;
+    }
+    .sobre-quote::before {
+      content: '"'; display: block; font-size: 5rem; line-height: .5;
+      color: var(--sand); opacity: .35; margin-bottom: .8rem;
+    }
+    .sobre-text {
+      background: var(--warm); padding: 5rem 4.5rem;
+      display: flex; flex-direction: column; justify-content: center; gap: 1.2rem;
+    }
+    .sobre-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-weight: 300; color: var(--olive); line-height: 1.85;
+    }
+
+    /* CONTATO */
+    #contato { background: var(--cream); padding: 7rem 5rem; }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; margin-top: 3.5rem; }
+
+    .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+    .info-card {
+      padding: 1.6rem; background: var(--white);
+      border-radius: 6px; border-left: 3px solid var(--sand);
+    }
+    .info-card-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .85rem;
+      color: var(--terra); letter-spacing: .09em; margin-bottom: .4rem;
+    }
+    .info-card-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--espresso); margin-bottom: .4rem; }
+    .info-card-text { font-size: .83rem; color: var(--olive); line-height: 1.65; }
+    .info-card-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      text-decoration: none; font-size: .83rem; font-weight: 500;
+      color: var(--brick); margin-top: .55rem; transition: gap .2s;
+    }
+    .info-card-link:hover { gap: .7rem; }
+
+    .social-btns { display: flex; gap: .65rem; margin-top: .8rem; }
+    .soc-btn {
+      display: flex; align-items: center; gap: .45rem; text-decoration: none;
+      background: var(--warm); border: 1px solid rgba(212,184,150,.4);
+      padding: .5rem .9rem; border-radius: 2px;
+      font-size: .76rem; font-weight: 500; color: var(--espresso);
+      transition: background .22s, color .22s, transform .18s;
+    }
+    .soc-btn:hover { background: var(--espresso); color: var(--cream); transform: translateY(-2px); }
+
+    .hours-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; margin-top: .8rem; }
+    .hour-item { background: var(--warm); border-radius: 4px; padding: .9rem 1rem; text-align: center; }
+    .hour-day { font-size: .72rem; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; color: var(--olive); margin-bottom: .25rem; }
+    .hour-time { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: .88rem; color: var(--espresso); }
+
+    .contact-form-card {
+      background: var(--white); border-radius: 8px; padding: 3rem;
+      box-shadow: 0 6px 40px rgba(61,35,20,.07);
+    }
+    .form-head-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .9rem;
+      color: var(--terra); letter-spacing: .1em; margin-bottom: .4rem;
+    }
+    .form-head-title { font-family: 'Playfair Display', serif; font-size: 1.55rem; font-weight: 700; color: var(--espresso); margin-bottom: 1.8rem; line-height: 1.15; }
+
+    .subject-row { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1.8rem; }
+    .sub-btn {
+      background: none; border: 1.5px solid rgba(212,184,150,.5); color: var(--olive);
+      font-family: 'DM Sans', sans-serif; font-size: .74rem; font-weight: 500;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: .4rem .95rem; border-radius: 2px; cursor: none; transition: all .2s;
+    }
+    .sub-btn:hover { border-color: var(--terra); color: var(--terra); }
+    .sub-btn.on { background: var(--brick); border-color: var(--brick); color: var(--cream); }
+
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-field { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1rem; }
+    .form-field:last-of-type { margin-bottom: 0; }
+    .f-label { font-size: .72rem; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; color: var(--olive); }
+    .f-input, .f-select, .f-textarea {
+      width: 100%; padding: .75rem .95rem;
+      border: 1.5px solid rgba(212,184,150,.5);
+      background: var(--cream); color: var(--ink);
+      font-family: 'DM Sans', sans-serif; font-size: .88rem;
+      border-radius: 3px; outline: none;
+      transition: border-color .22s, box-shadow .22s; -webkit-appearance: none;
+    }
+    .f-input::placeholder, .f-textarea::placeholder { color: var(--dust); }
+    .f-input:focus, .f-select:focus, .f-textarea:focus {
+      border-color: var(--terra); box-shadow: 0 0 0 3px rgba(184,121,74,.1);
+    }
+    .f-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A7055' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right .9rem center; background-color: var(--cream);
+      padding-right: 2.4rem; cursor: none;
+    }
+    .f-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+    .f-counter { font-size: .7rem; color: var(--dust); text-align: right; margin-top: .25rem; }
+
+    .wa-check {
+      display: flex; align-items: flex-start; gap: .75rem;
+      background: rgba(80,155,80,.06); border: 1.5px solid rgba(80,155,80,.2);
+      border-radius: 4px; padding: .9rem 1.1rem; margin: 1.2rem 0;
+    }
+    .wa-check input { accent-color: #5a9a5a; width: 15px; height: 15px; flex-shrink: 0; margin-top: .15rem; cursor: none; }
+    .wa-check label { font-size: .82rem; color: var(--olive); line-height: 1.5; cursor: none; }
+    .wa-check label strong { color: var(--espresso); }
+
+    .f-submit {
+      width: 100%; background: var(--brick); color: var(--cream); border: none;
+      padding: .95rem; font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      border-radius: 3px; cursor: none; margin-top: 1.4rem;
+      transition: background .22s, transform .18s;
+    }
+    .f-submit:hover { background: var(--espresso); transform: translateY(-2px); }
+
+    .form-ok { display: none; text-align: center; padding: 2.5rem 0; }
+    .form-ok.show { display: block; }
+    .form-ok .ok-icon { font-size: 2.8rem; margin-bottom: .8rem; }
+    .form-ok .ok-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--espresso); margin-bottom: .5rem; }
+    .form-ok .ok-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.05rem; color: var(--olive); line-height: 1.6; }
+
+    /* NEWSLETTER */
+    #newsletter { background: var(--espresso); padding: 5rem; text-align: center; }
+    #newsletter .eyebrow { color: var(--blush); }
+    #newsletter .heading { color: var(--cream); margin-top: .4rem; margin-bottom: 1rem; }
+    .nl-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; color: var(--dust); margin-bottom: 2.4rem; }
+    .nl-form { display: flex; max-width: 460px; margin: 0 auto; }
+    .nl-input {
+      flex: 1; padding: .88rem 1.3rem;
+      border: 1.5px solid var(--sand); border-right: none;
+      background: transparent; color: var(--cream);
+      font-family: 'DM Sans', sans-serif; font-size: .88rem;
+      outline: none; border-radius: 2px 0 0 2px;
+    }
+    .nl-input::placeholder { color: var(--dust); }
+    .nl-btn {
+      background: var(--terra); color: var(--cream); border: none;
+      padding: .88rem 1.7rem; font-family: 'DM Sans', sans-serif;
+      font-size: .78rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      cursor: none; border-radius: 0 2px 2px 0; transition: background .22s;
+    }
+    .nl-btn:hover { background: var(--brick); }
+
+    /* FOOTER */
+    footer { background: var(--ink); color: var(--dust); padding: 4rem 5rem 2rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand .logo-name { color: var(--blush); }
+    .footer-brand .logo-tag { color: var(--dust); }
+    .footer-about { font-size: .82rem; line-height: 1.7; color: var(--dust); margin-top: .9rem; }
+    .footer-col h4 { font-family: 'Playfair Display', serif; font-size: .93rem; color: var(--cream); margin-bottom: 1.1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+    .footer-col ul a { text-decoration: none; font-size: .82rem; color: var(--dust); transition: color .2s; }
+    .footer-col ul a:hover { color: var(--blush); }
+    .footer-bar {
+      border-top: 1px solid rgba(255,255,255,.07); padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .73rem; color: rgba(200,180,165,.45);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .cat-grid { grid-template-columns: repeat(3, 1fr); }
+      .prod-grid { grid-template-columns: repeat(3, 1fr); }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    }
+    @media (max-width: 768px) {
+      #inicio { grid-template-columns: 1fr; }
+      .hero-right { height: 300px; }
+      .hero-left { padding: 7rem 1.8rem 3rem; }
+      #sobre { grid-template-columns: 1fr; }
+      .sobre-visual { min-height: 260px; }
+      .sobre-text { padding: 3rem 2rem; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+      .prod-grid { grid-template-columns: repeat(2, 1fr); }
+      #features { grid-template-columns: 1fr; padding: 3rem 1.8rem; }
+      #categorias, #produtos, #contato, #newsletter, footer { padding-left: 1.8rem; padding-right: 1.8rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      header, #site-header { padding: 1.1rem 1.8rem; }
+      .main-nav { display: none; }
       .hamburger { display: flex; }
-      #stats { gap: 2rem; flex-wrap: wrap; }
-      #categories, #produtos, #newsletter, footer { padding: 4rem 1.5rem; }
-      .edit-text { padding: 3rem 2rem; }
+      #stats { gap: 0; }
+      .stat-item { padding: .6rem 1.2rem; }
+      .hours-grid { grid-template-columns: 1fr; }
+      .form-row-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .cat-grid { grid-template-columns: 1fr 1fr; }
+      .prod-grid { grid-template-columns: 1fr 1fr; gap: .8rem; }
+      #newsletter { padding: 3.5rem 1.8rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Custom cursor -->
-  <div id="cursor"></div>
+<div id="cursor"></div>
 
-  <!-- ─── HEADER ─── -->
-  <header id="header">
-    <a href="#" class="logo">
-  <img src="img/newlogo.png" alt="Pedacinho" class="logo-img" />
-  <div class="logo-texts">
-    <span class="logo-name">Pedacinho</span>
-    <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
+<div class="mobile-drawer" id="drawer">
+  <a href="#inicio"     onclick="closeDrawer()">Início</a>
+  <a href="#categorias" onclick="closeDrawer()">Categorias</a>
+  <a href="#produtos"   onclick="closeDrawer()">Produtos</a>
+  <a href="#sobre"      onclick="closeDrawer()">Sobre</a>
+  <a href="#contato"    onclick="closeDrawer()">Contato</a>
+</div>
+
+<!-- HEADER -->
+<header id="site-header">
+  <a href="#inicio" class="logo">
+    <img src="img/newlogo.png" alt="Pedacinho" />
+    <div class="logo-text">
+      <span class="logo-name">Pedacinho</span>
+      <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
+    </div>
+  </a>
+  <nav class="main-nav">
+    <a href="#categorias">Categorias</a>
+    <a href="#produtos">Produtos</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- HERO -->
+<section id="inicio">
+  <div class="hero-left">
+    <p class="hero-eyebrow">✦ Tecendo Histórias, Desde 1996</p>
+    <h1 class="hero-title">Cada pedaço<br>conta uma<br><em>história.</em></h1>
+    <p class="hero-sub">Malhas, linhos, veludos e sedas cuidadosamente selecionados para transformar sua criatividade em realidade.</p>
   </div>
-</a>
-    <nav>
-      <a href="#categorias">Categorias</a>
-      <a href="#produtos">Produtos</a>
-      <a href="#sobre">Sobre</a>
-      <a href="contato.html">Contato</a>
-      <a href="#" class="header-btn">Ver catálogo</a>
-    </nav>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
-
-  <!-- ─── HERO ─── -->
-  <section id="hero">
-    <div class="hero-left">
-      <p class="hero-eyebrow">✦ Tecendo Histórias, Desde 1996</p>
-      <h1 class="hero-title">
-        Cada pedaço<br>conta uma<br><em>história.</em>
-      </h1>
-      <p class="hero-desc">
-        Malhas, lins, veludos e sedas cuidadosamente selecionados para transformar sua criatividade em realidade.
-      </p>
-      <div class="hero-actions">
-        
-        <a href="#sobre" class="btn-primary">Nossa história <span class="arr">→</span></a>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="fabric-circles">
-        <div class="fc"></div>
-        <div class="fc"></div>
-        <div class="fc"></div>
-      </div>
-      <div class="hero-badge">
-        <span class="hero-badge-inner">Novidades<br>toda<br>semana</span>
-      </div>
-    </div>
-    <svg class="diagonal" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,80 L1440,0 L1440,80 Z" fill="#F5EFE4"/>
-    </svg>
-  </section>
-
-  <!-- ─── STATS ─── -->
-  <section id="stats">
-    <div class="stat">
-      <div class="stat-n" data-count="100">0+</div>
-      <div class="stat-l">tipos de tecido</div>
-    </div>
-    <div class="stat">
-      <div class="stat-n" data-count="20">0+</div>
-      <div class="stat-l">anos de mercado</div>
-    </div>
-    <div class="stat">
-      <div class="stat-n" data-count="1500">0</div>
-      <div class="stat-l">clientes satisfeitos</div>
-    </div>
-    <div class="stat">
-      <div class="stat-n" data-count="98">0</div>
-      <div class="stat-l">% de aprovação</div>
-    </div>
-  </section>
-
-  <!-- ─── CATEGORIES ─── -->
-  <section id="categorias">
-    <div id="categories">
-      <div class="section-header reveal">
-        <div>
-          <p class="section-eyebrow">Navegue por tema</p>
-          <h2 class="section-title">Nossas<br>categorias</h2>
-        </div>
-        <a href="categorias.html" class="section-link">Ver todas as categorias →</a>
-      </div>
-      <div class="cat-grid reveal">
-        <div class="cat-card"><div class="cat-bg"></div><span class="cat-icon">🧵</span><div class="cat-info"><div class="cat-name">Linho & Algodão</div><div class="cat-count">+120 opções</div></div></div>
-        <div class="cat-card"><div class="cat-bg"></div><span class="cat-icon">✨</span><div class="cat-info"><div class="cat-name">Seda & Cetim</div><div class="cat-count">+45 opções</div></div></div>
-        <div class="cat-card"><div class="cat-bg"></div><span class="cat-icon">🧶</span><div class="cat-info"><div class="cat-name">Malhas</div><div class="cat-count">+80 opções</div></div></div>
-        <div class="cat-card"><div class="cat-bg"></div><span class="cat-icon">🪡</span><div class="cat-info"><div class="cat-name">Veludo & Jacquard</div><div class="cat-count">+60 opções</div></div></div>
-        <div class="cat-card"><div class="cat-bg"></div><span class="cat-icon">🎨</span><div class="cat-info"><div class="cat-name">Estampados</div><div class="cat-count">+200 opções</div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── FEATURES ─── -->
-  <section id="features" class="reveal">
-    <div class="feat">
-      <span class="feat-icon">✂️</span>
-      <div>
-        <div class="feat-title">Corte personalizado</div>
-        <div class="feat-desc">Pedidos a partir de 50 cm no comprimento que desejar.</div>
-      </div>
-    </div>
-    <div class="feat">
-      <span class="feat-icon">🎁</span>
-      <div>
-        <div class="feat-title">Amostras grátis</div>
-        <div class="feat-desc">Solicite amostras antes de decidir sua compra.</div>
-      </div>
-    </div>
-    <div class="feat">
-      <span class="feat-icon">💬</span>
-      <div>
-        <div class="feat-title">Atendimento humano</div>
-        <div class="feat-desc">Nossa equipe está pronta para te ajudar a escolher.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── PRODUCTS ─── -->
-  <section id="produtos">
-    <div class="section-header reveal">
-      <div>
-        <p class="section-eyebrow">Seleção especial</p>
-        <h2 class="section-title">Destaques<br>da semana</h2>
-      </div>
-      <a href="produtos.html" class="section-link">Ver todos os produtos →</a>
-    </div>
-    <div class="prod-grid reveal" id="prod-grid">
-
-      <div class="prod-card">
-        <div class="prod-img">
-          <div class="prod-img-bg"></div>
-          <span class="prod-tag">Novo</span>
-          <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
-        </div>
-        <div class="prod-info">
-          <div class="prod-name">Linho Natural Lavado</div>
-          <div class="prod-sub">largura 140 cm · por metro</div>
-          <div class="prod-price">R$ 38,90 <small>R$ 49,90</small></div>
-          <div class="prod-swatches">
-            <span class="swatch" style="background:#D4B896"></span>
-            <span class="swatch" style="background:#8B7355"></span>
-            <span class="swatch" style="background:#E8DDD0"></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="prod-card">
-        <div class="prod-img">
-          <div class="prod-img-bg"></div>
-          <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
-        </div>
-        <div class="prod-info">
-          <div class="prod-name">Tricoline Fio 50</div>
-          <div class="prod-sub">largura 150 cm · por metro</div>
-          <div class="prod-price">R$ 22,90</div>
-          <div class="prod-swatches">
-            <span class="swatch" style="background:#A0907E"></span>
-            <span class="swatch" style="background:#D4C8B8"></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="prod-card">
-        <div class="prod-img">
-          <div class="prod-img-bg"></div>
-          <span class="prod-tag">-20%</span>
-          <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
-        </div>
-        <div class="prod-info">
-          <div class="prod-name">Cetim Italiano</div>
-          <div class="prod-sub">largura 140 cm · por metro</div>
-          <div class="prod-price">R$ 55,90 <small>R$ 69,90</small></div>
-          <div class="prod-swatches">
-            <span class="swatch" style="background:#F0E0D0"></span>
-            <span class="swatch" style="background:#C0A890"></span>
-            <span class="swatch" style="background:#704030"></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="prod-card">
-        <div class="prod-img">
-          <div class="prod-img-bg"></div>
-          <span class="prod-tag">Exclusivo</span>
-          <button class="prod-fav" onclick="toggleFav(this)">🤍</button>
-        </div>
-        <div class="prod-info">
-          <div class="prod-name">Lã Boclé Verde Oliva</div>
-          <div class="prod-sub">largura 140 cm · por metro</div>
-          <div class="prod-price">R$ 78,90</div>
-          <div class="prod-swatches">
-            <span class="swatch" style="background:#7A8060"></span>
-            <span class="swatch" style="background:#505840"></span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ─── EDITORIAL ─── -->
-  <section id="sobre">
-    <div id="editorial">
-      <div class="edit-visual">
-        <div class="edit-quote">
-          Tecido é memória. É a avó costurando à janela. É o vestido que fica para sempre.
-        </div>
-      </div>
-      <div class="edit-text reveal">
-        <p class="section-eyebrow">Nossa história</p>
-        <h2 class="section-title">Artesanato<br>com propósito</h2>
-        <p class="edit-body">
-          Desde 1996, a Pedacinho reúne os melhores tecidos nacionais e importados, cuidadosamente selecionados por quem entende e ama o universo da costura. Acreditamos que cada metro de tecido carrega uma possibilidade infinita.
-        </p>
-        <p class="edit-body">
-          Nosso compromisso é oferecer qualidade real, variedade e um atendimento que vai além do balcão — porque costurar é ato de amor, e quem cria merece o melhor material.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── NEWSLETTER ─── -->
-  <section id="newsletter" id="contato">
-    <p class="section-eyebrow reveal">Fique por dentro</p>
-    <h2 class="section-title reveal">Novidades que<br>inspiram a criar</h2>
-    <p class="news-sub reveal">Receba lançamentos, promoções e dicas de costura direto no seu e-mail.</p>
-    <div class="news-form reveal">
-      <input class="news-input" type="email" placeholder="seu@email.com" />
-      <button class="news-btn" onclick="subscribeNewsletter(this)">Assinar</button>
-    </div>
-  </section>
-
-  <!-- ─── FOOTER ─── -->
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand">
-   <a href="#" class="logo">
-  <div class="logo-texts">
-    <span class="logo-name">Pedacinho</span>
-    <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
+  <div class="hero-right">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-blob hero-blob-3"></div>
+    <div class="hero-badge"><span>Novidades<br>toda<br>semana</span></div>
   </div>
-</a>
-        <p class="footer-about">Uma loja especializada em tecidos para quem ama criar. Do algodão ao veludo, do básico ao exclusivo — encontre aqui o material perfeito para o seu próximo projeto.</p>
+  <svg class="hero-diagonal" viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,70 L1440,0 L1440,70 Z" fill="#F5EFE4"/>
+  </svg>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stat-item"><div class="stat-n" data-to="100">0</div><div class="stat-l">tipos de tecido</div></div>
+  <div class="stat-item"><div class="stat-n" data-to="28">0</div><div class="stat-l">anos de mercado</div></div>
+  <div class="stat-item"><div class="stat-n" data-to="1500">0</div><div class="stat-l">clientes satisfeitos</div></div>
+  <div class="stat-item"><div class="stat-n" data-to="98">0</div><div class="stat-l">% de aprovação</div></div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="feat-item reveal">
+    <span class="feat-icon">✂️</span>
+    <div><div class="feat-name">Corte personalizado</div><div class="feat-desc">Pedidos a partir de 50 cm, no comprimento que você precisar.</div></div>
+  </div>
+  <div class="feat-item reveal" style="transition-delay:.12s">
+    <span class="feat-icon">🎁</span>
+    <div><div class="feat-name">Amostras grátis</div><div class="feat-desc">Solicite amostras antes de decidir sua compra, sem custo.</div></div>
+  </div>
+  <div class="feat-item reveal" style="transition-delay:.24s">
+    <span class="feat-icon">💬</span>
+    <div><div class="feat-name">Atendimento humano</div><div class="feat-desc">Nossa equipe está pronta para te ajudar a escolher o tecido certo.</div></div>
+  </div>
+</section>
+
+<!-- CATEGORIAS -->
+<section id="categorias">
+  <div class="section-head reveal">
+    <div>
+      <span class="eyebrow">Explore todo o acervo</span>
+      <h2 class="heading">Nossas <em>categorias</em></h2>
+    </div>
+  </div>
+  <div class="group-tabs reveal" id="groupTabs">
+    <button class="gtab on" data-g="todos">Todas</button>
+    <button class="gtab" data-g="naturais">Naturais</button>
+    <button class="gtab" data-g="nobres">Nobres</button>
+    <button class="gtab" data-g="malhas">Malhas</button>
+    <button class="gtab" data-g="estampados">Estampados</button>
+    <button class="gtab" data-g="especiais">Especiais</button>
+  </div>
+
+  <div class="cat-group" data-group="naturais">
+    <div class="cat-group-title"><span class="g-eyebrow">Do campo ao ateliê</span> Tecidos Naturais</div>
+    <div class="cat-grid">
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-linho"></div><span class="cc-icon">🌾</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Linho & Algodão</div><div class="cc-count">+120 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-algodao"></div><span class="cc-icon">☁️</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Algodão Puro</div><div class="cc-count">+85 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-organico"></div><span class="cc-icon">🌿</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Algodão Orgânico</div><div class="cc-count">+38 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-juta"></div><span class="cc-icon">🪢</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Juta & Rami</div><div class="cc-count">+22 opções</div></div></a>
+    </div>
+  </div>
+
+  <div class="cat-group" data-group="nobres">
+    <div class="cat-group-title"><span class="g-eyebrow">Sofisticação em cada fio</span> Tecidos Nobres</div>
+    <div class="cat-grid">
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-seda"></div><span class="cc-icon">✨</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Seda Pura</div><div class="cc-count">+45 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-cetim"></div><span class="cc-icon">💫</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Cetim & Charmeuse</div><div class="cc-count">+52 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-veludo"></div><span class="cc-icon">👑</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Veludo</div><div class="cc-count">+60 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-jacquard"></div><span class="cc-icon">🏺</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Jacquard</div><div class="cc-count">+34 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-suede"></div><span class="cc-icon">🦌</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Suede & Camurça</div><div class="cc-count">+18 opções</div></div></a>
+    </div>
+  </div>
+
+  <div class="cat-group" data-group="malhas">
+    <div class="cat-group-title"><span class="g-eyebrow">Conforto e elasticidade</span> Malhas</div>
+    <div class="cat-grid">
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-jersey"></div><span class="cc-icon">🧶</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Malha Jersey</div><div class="cc-count">+80 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-canelada"></div><span class="cc-icon">〰️</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Malha Canelada</div><div class="cc-count">+47 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-fleece"></div><span class="cc-icon">🧸</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Fleece & Pelúcia</div><div class="cc-count">+29 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-moletom"></div><span class="cc-icon">🎽</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Moletom & Neoprene</div><div class="cc-count">+35 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-cotelê"></div><span class="cc-icon">🟫</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Veludo Cotelê</div><div class="cc-count">+24 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-viscose"></div><span class="cc-icon">🤸</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Viscolycra & Stretch</div><div class="cc-count">+41 opções</div></div></a>
+    </div>
+  </div>
+
+  <div class="cat-group" data-group="estampados">
+    <div class="cat-group-title"><span class="g-eyebrow">Arte em cada metro</span> Estampados</div>
+    <div class="cat-grid">
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-floral"></div><span class="cc-icon">🌸</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Floral</div><div class="cc-count">+200 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-geometrico"></div><span class="cc-icon">🔷</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Geométrico</div><div class="cc-count">+95 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-listrado"></div><span class="cc-icon">〽️</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Listrado & Xadrez</div><div class="cc-count">+110 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-xadrez"></div><span class="cc-icon">♟️</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Xadrez Príncipe de Gales</div><div class="cc-count">+48 opções</div></div></a>
+    </div>
+  </div>
+
+  <div class="cat-group" data-group="especiais">
+    <div class="cat-group-title"><span class="g-eyebrow">Para projetos únicos</span> Especiais & Técnicos</div>
+    <div class="cat-grid">
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-renda"></div><span class="cc-icon">🕸️</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Renda & Guipir</div><div class="cc-count">+55 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-tule"></div><span class="cc-icon">🪄</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Tule & Voal</div><div class="cc-count">+42 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-crepe"></div><span class="cc-icon">🌊</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Crepe & Georgette</div><div class="cc-count">+37 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-oxford"></div><span class="cc-icon">🧳</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Oxford & Brim</div><div class="cc-count">+30 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-tricoline"></div><span class="cc-icon">🪡</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Tricoline Fio 50/60</div><div class="cc-count">+66 opções</div></div></a>
+      <a href="#produtos" class="cat-card"><div class="cc-bg cc-viscose"></div><span class="cc-icon">🍃</span><span class="cc-arrow">→</span><div class="cc-info"><div class="cc-name">Viscose & Tencel</div><div class="cc-count">+58 opções</div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUTOS -->
+<section id="produtos">
+  <div class="section-head reveal">
+    <div>
+      <span class="eyebrow">Coleção completa</span>
+      <h2 class="heading">Todos os <em>tecidos</em></h2>
+    </div>
+    <span id="prodCount" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.9rem;color:var(--dust)">12 de 36 produtos</span>
+  </div>
+  <div class="filter-bar reveal">
+    <button class="filter-pill on" data-cat="todos">Todos</button>
+    <button class="filter-pill" data-cat="linho">Linho & Algodão</button>
+    <button class="filter-pill" data-cat="seda">Seda & Cetim</button>
+    <button class="filter-pill" data-cat="malha">Malhas</button>
+    <button class="filter-pill" data-cat="veludo">Veludo</button>
+    <button class="filter-pill" data-cat="estampado">Estampados</button>
+    <select class="prod-sort" id="prodSort" onchange="sortProds()">
+      <option value="">Destaques</option>
+      <option value="asc">Menor preço</option>
+      <option value="desc">Maior preço</option>
+      <option value="az">A – Z</option>
+    </select>
+    <div class="grid-toggle">
+      <button class="gtog on" onclick="setProdCols(4)" id="g4">⊞</button>
+      <button class="gtog"    onclick="setProdCols(3)" id="g3">▦</button>
+      <button class="gtog"    onclick="setProdCols(2)" id="g2">▤</button>
+    </div>
+  </div>
+  <div class="prod-grid" id="prodGrid">
+    <div class="prod-card" data-cat="linho" data-price="38.90" data-name="Linho Natural Lavado">
+      <div class="pc-img"><div class="pc-bg g1"></div><span class="pc-tag tag-novo">Novo</span><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Linho Natural Lavado</div><div class="pc-sub">140 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 38,90 <s>R$ 49,90</s></div><div class="pc-swatches"><span class="pc-swatch" style="background:#D4B896"></span><span class="pc-swatch" style="background:#8B7355"></span><span class="pc-swatch" style="background:#E8DDD0"></span></div></div></div>
+    </div>
+    <div class="prod-card" data-cat="linho" data-price="22.90" data-name="Tricoline Fio 50">
+      <div class="pc-img"><div class="pc-bg g2"></div><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Tricoline Fio 50</div><div class="pc-sub">150 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 22,90</div><div class="pc-swatches"><span class="pc-swatch" style="background:#A0907E"></span><span class="pc-swatch" style="background:#D4C8B8"></span></div></div></div>
+    </div>
+    <div class="prod-card" data-cat="seda" data-price="55.90" data-name="Cetim Italiano">
+      <div class="pc-img"><div class="pc-bg g3"></div><span class="pc-tag tag-off">-20%</span><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Cetim Italiano</div><div class="pc-sub">140 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 55,90 <s>R$ 69,90</s></div><div class="pc-swatches"><span class="pc-swatch" style="background:#F0E0D0"></span><span class="pc-swatch" style="background:#C0A890"></span><span class="pc-swatch" style="background:#704030"></span></div></div></div>
+    </div>
+    <div class="prod-card" data-cat="malha" data-price="78.90" data-name="Lã Boclé Verde Oliva">
+      <div class="pc-img"><div class="pc-bg g4"></div><span class="pc-tag tag-excl">Exclusivo</span><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Lã Boclé Verde Oliva</div><div class="pc-sub">140 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 78,90</div><div class="pc-swatches"><span class="pc-swatch" style="background:#7A8060"></span><span class="pc-swatch" style="background:#505840"></span></div></div></div>
+    </div>
+    <div class="prod-card" data-cat="veludo" data-price="92.00" data-name="Veludo Cotelê Premium">
+      <div class="pc-img"><div class="pc-bg g5"></div><span class="pc-tag tag-lim">Limitado</span><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Veludo Cotelê Premium</div><div class="pc-sub">140 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 92,00</div><div class="pc-swatches"><span class="pc-swatch" style="background:#B8A0C8"></span><span class="pc-swatch" style="background:#8870A0"></span></div></div></div>
+    </div>
+    <div class="prod-card" data-cat="estampado" data-price="34.50" data-name="Estampado Floral Provence">
+      <div class="pc-img"><div class="pc-bg g6"></div><span class="pc-tag tag-novo">Novo</span><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Estampado Floral Provence</div><div class="pc-sub">150 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 34,50</div><div class="pc-swatches"><span class="pc-swatch" style="background:#90C0A0"></span><span class="pc-swatch" style="background:#508060"></span></div></div></div>
+    </div>
+    <div class="prod-card" data-cat="linho" data-price="48.00" data-name="Linho Belga Puro">
+      <div class="pc-img"><div class="pc-bg g7"></div><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Linho Belga Puro</div><div class="pc-sub">140 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 48,00</div><div class="pc-swatches"><span class="pc-swatch" style="background:#C8B070"></span><span class="pc-swatch" style="background:#907030"></span></div></div></div>
+    </div>
+    <div class="prod-card" data-cat="seda" data-price="118.00" data-name="Seda Pura 100%">
+      <div class="pc-img"><div class="pc-bg g8"></div><span class="pc-tag tag-excl">Exclusivo</span><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Seda Pura 100%</div><div class="pc-sub">110 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 118,00 <s>R$ 145,00</s></div><div class="pc-swatches"><span class="pc-swatch" style="background:#C89090"></span><span class="pc-swatch" style="background:#905050"></span></div></div></div>
+    </div>
+    <div class="prod-card" data-cat="malha" data-price="29.90" data-name="Malha Canelada Stretch">
+      <div class="pc-img"><div class="pc-bg g9"></div><span class="pc-tag tag-off">-15%</span><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Malha Canelada Stretch</div><div class="pc-sub">160 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 29,90 <s>R$ 35,00</s></div><div class="pc-swatches"><span class="pc-swatch" style="background:#8098B8"></span><span class="pc-swatch" style="background:#406080"></span></div></div></div>
+    </div>
+    <div class="prod-card" data-cat="estampado" data-price="42.00" data-name="Jacquard Geométrico">
+      <div class="pc-img"><div class="pc-bg g10"></div><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Jacquard Geométrico</div><div class="pc-sub">140 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 42,00</div><div class="pc-swatches"><span class="pc-swatch" style="background:#D4C090"></span><span class="pc-swatch" style="background:#A88C50"></span></div></div></div>
+    </div>
+    <div class="prod-card" data-cat="veludo" data-price="85.00" data-name="Veludo Liso Esmeralda">
+      <div class="pc-img"><div class="pc-bg g11"></div><span class="pc-tag tag-novo">Novo</span><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Veludo Liso Esmeralda</div><div class="pc-sub">140 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 85,00</div><div class="pc-swatches"><span class="pc-swatch" style="background:#A0C8B8"></span><span class="pc-swatch" style="background:#609080"></span></div></div></div>
+    </div>
+    <div class="prod-card" data-cat="linho" data-price="26.50" data-name="Algodão Cru Orgânico">
+      <div class="pc-img"><div class="pc-bg g12"></div><button class="pc-fav" onclick="toggleFav(this)">🤍</button><div class="pc-quick">Adicionar ao carrinho</div></div>
+      <div class="pc-body"><div class="pc-name">Algodão Cru Orgânico</div><div class="pc-sub">150 cm · por metro</div><div class="pc-row"><div class="pc-price">R$ 26,50</div><div class="pc-swatches"><span class="pc-swatch" style="background:#D8C0A0"></span><span class="pc-swatch" style="background:#B09070"></span></div></div></div>
+    </div>
+    <div class="prod-empty" id="prodEmpty"><p>🧵 Nenhum produto encontrado para este filtro.</p></div>
+  </div>
+  <div class="load-more" id="loadMore">
+    <button onclick="loadMore()">Carregar mais produtos</button>
+    <p id="loadMoreTxt">Mostrando 12 de 36 produtos</p>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre-visual">
+    <div class="sobre-quote reveal">
+      Tecido é memória. É a avó costurando à janela. É o vestido que fica para sempre.
+    </div>
+  </div>
+  <div class="sobre-text reveal">
+    <div>
+      <span class="eyebrow">Nossa história</span>
+      <h2 class="heading">Artesanato<br><em>com propósito</em></h2>
+    </div>
+    <p class="sobre-body">Desde 1996, a Pedacinho reúne os melhores tecidos nacionais e importados, cuidadosamente selecionados por quem entende e ama o universo da costura. Acreditamos que cada metro de tecido carrega uma possibilidade infinita.</p>
+    <p class="sobre-body">Nosso compromisso é oferecer qualidade real, variedade e um atendimento que vai além do balcão — porque costurar é ato de amor, e quem cria merece o melhor material.</p>
+    <a href="#contato" class="btn btn-solid" style="align-self:flex-start">Fale conosco →</a>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="section-head reveal">
+    <div>
+      <span class="eyebrow">✦ Estamos aqui por você</span>
+      <h2 class="heading">Vamos <em>conversar.</em></h2>
+    </div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="info-card">
+        <div class="info-card-label">Onde nos encontrar</div>
+        <div class="info-card-title">Loja física</div>
+        <div class="info-card-text">Rua Barão do Rio Branco, 780<br>Centro — Canoinhas, SC · CEP 89460-100</div>
+        <div style="margin-top:1rem;height:130px;border-radius:4px;background:linear-gradient(135deg,var(--warm),var(--sand));position:relative;overflow:hidden;border:1px solid rgba(212,184,150,.35)">
+          <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-62%);font-size:1.8rem;animation:bounce-pin 2s ease-in-out infinite">📍</span>
+          <span style="position:absolute;bottom:.7rem;left:50%;transform:translateX(-50%);font-size:.7rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--espresso);background:rgba(245,239,228,.88);padding:.25rem .7rem;border-radius:2px;white-space:nowrap">Canoinhas — SC</span>
+        </div>
       </div>
-      <div class="footer-col">
-        <h4>Categorias</h4>
-        <ul>
-          <li><a href="#">Algodão & Linho</a></li>
-          <li><a href="#">Seda & Cetim</a></li>
-          <li><a href="#">Malhas</a></li>
-          <li><a href="#">Veludo</a></li>
-          <li><a href="#">Estampados</a></li>
-        </ul>
+      <div class="info-card">
+        <div class="info-card-label">Fale conosco agora</div>
+        <div class="info-card-title">WhatsApp & Telefone</div>
+        <div class="info-card-text">Atendemos de segunda a sexta<br>das 08h30 às 12h00 e 13h30 às 18h30</div>
+        <a href="https://wa.me/5547996017369" class="info-card-link" target="_blank">📱 (47) 99601-7369 →</a>
+        <div class="social-btns">
+          <a href="https://www.instagram.com/pedacinho.tecidos/" class="soc-btn" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            Instagram
+          </a>
+          <a href="https://wa.me/5547996017369" class="soc-btn" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            WhatsApp
+          </a>
+        </div>
       </div>
-      <div class="footer-col">
-        <h4>Atendimento</h4>
-        <ul>
-          <li><a href="#">Meu pedido</a></li>
-          <li><a href="#">Política de troca</a></li>
-          <li><a href="#">Amostras</a></li>
-          <li><a href="#">Perguntas frequentes</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contato</h4>
-        <ul>
-          <li><a href="#">WhatsApp</a></li>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">E-mail</a></li>
-          <li><a href="#">Nossa loja física</a></li>
-        </ul>
+      <div class="info-card">
+        <div class="info-card-label">Horário de funcionamento</div>
+        <div class="info-card-title">Quando estamos abertos</div>
+        <div class="hours-grid">
+          <div class="hour-item"><div class="hour-day">Seg – Sex</div><div class="hour-time">08h30 – 18h30</div></div>
+          <div class="hour-item"><div class="hour-day">Sábado</div><div class="hour-time">09h00 – 12h30</div></div>
+          <div class="hour-item"><div class="hour-day">Domingo</div><div class="hour-time">Fechado</div></div>
+        </div>
       </div>
     </div>
-    <div class="footer-bar">
-      <span>© 2026 Pedacinho. Todos os direitos reservados.</span>
-      <span>Feito por Bruno Guttervill</span>
+    <div class="contact-form-card reveal" style="transition-delay:.15s">
+      <div class="form-head-eyebrow">Mensagem direta</div>
+      <div class="form-head-title">Como podemos<br>te ajudar?</div>
+      <div class="subject-row">
+        <button class="sub-btn on" data-s="Dúvida sobre produto">Dúvida sobre produto</button>
+        <button class="sub-btn" data-s="Pedido especial">Pedido especial</button>
+        <button class="sub-btn" data-s="Amostras">Amostras grátis</button>
+        <button class="sub-btn" data-s="Outros">Outros</button>
+      </div>
+      <div id="cForm">
+        <div class="form-row-2">
+          <div class="form-field"><label class="f-label" for="f-nome">Nome</label><input class="f-input" type="text" id="f-nome" placeholder="Seu nome" /></div>
+          <div class="form-field"><label class="f-label" for="f-tel">Telefone</label><input class="f-input" type="tel" id="f-tel" placeholder="(47) 9 9999-9999" /></div>
+        </div>
+        <div class="form-field"><label class="f-label" for="f-email">E-mail</label><input class="f-input" type="email" id="f-email" placeholder="seu@email.com" /></div>
+        <div class="form-field">
+          <label class="f-label" for="f-assunto">Assunto</label>
+          <select class="f-select" id="f-assunto">
+            <option value="">Selecione um assunto</option>
+            <option>Dúvida sobre produto</option>
+            <option>Pedido especial / encomenda</option>
+            <option>Solicitar amostras</option>
+            <option>Troca ou devolução</option>
+            <option>Parceria comercial</option>
+            <option>Outros</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="f-label" for="f-msg">Mensagem</label>
+          <textarea class="f-textarea" id="f-msg" maxlength="600" placeholder="Descreva sua dúvida ou pedido…"></textarea>
+          <div class="f-counter" id="fCounter">0 / 600</div>
+        </div>
+        <div class="wa-check">
+          <input type="checkbox" id="f-wa" />
+          <label for="f-wa"><strong>Prefiro resposta pelo WhatsApp.</strong> Nossa equipe pode entrar em contato pelo número informado.</label>
+        </div>
+        <button class="f-submit" onclick="sendForm()">Enviar mensagem</button>
+      </div>
+      <div class="form-ok" id="formOk">
+        <div class="ok-icon">🧵</div>
+        <div class="ok-title">Mensagem recebida!</div>
+        <p class="ok-text">Obrigada pelo contato.<br>Nossa equipe responderá em breve — você merece o melhor atendimento.</p>
+      </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    // ─── CURSOR ───
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top  = e.clientY + 'px';
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <span class="eyebrow reveal">Fique por dentro</span>
+  <h2 class="heading reveal">Novidades que<br>inspiram a criar</h2>
+  <p class="nl-sub reveal">Receba lançamentos, promoções e dicas de costura direto no seu e-mail.</p>
+  <div class="nl-form reveal">
+    <input class="nl-input" type="email" placeholder="seu@email.com" id="nlEmail" />
+    <button class="nl-btn" onclick="signNl(this)">Assinar</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#inicio" class="logo">
+        <div class="logo-text">
+          <span class="logo-name">Pedacinho</span>
+          <span class="logo-tag">Malhas, Tecidos e Aviamentos</span>
+        </div>
+      </a>
+      <p class="footer-about">Uma loja especializada em tecidos para quem ama criar. Do algodão ao veludo, do básico ao exclusivo — encontre aqui o material perfeito para o seu próximo projeto.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Categorias</h4>
+      <ul>
+        <li><a href="#categorias">Algodão & Linho</a></li>
+        <li><a href="#categorias">Seda & Cetim</a></li>
+        <li><a href="#categorias">Malhas</a></li>
+        <li><a href="#categorias">Veludo</a></li>
+        <li><a href="#categorias">Estampados</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Atendimento</h4>
+      <ul>
+        <li><a href="#contato">Meu pedido</a></li>
+        <li><a href="#contato">Política de troca</a></li>
+        <li><a href="#contato">Amostras</a></li>
+        <li><a href="#contato">Perguntas frequentes</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <ul>
+        <li><a href="https://wa.me/5547996017369" target="_blank">WhatsApp</a></li>
+        <li><a href="https://www.instagram.com/pedacinho.tecidos/" target="_blank">Instagram</a></li>
+        <li><a href="mailto:contato@pedacinho.com.br">E-mail</a></li>
+        <li><a href="#contato">Loja física</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <span>© 2026 Pedacinho. Todos os direitos reservados.</span>
+    <span>Feito por Bruno Guttervill</span>
+  </div>
+</footer>
+
+<style>
+  @keyframes bounce-pin {
+    0%,100% { transform: translate(-50%,-62%); }
+    50%      { transform: translate(-50%,-76%); }
+  }
+</style>
+
+<script>
+const cur = document.getElementById('cursor');
+document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
+document.querySelectorAll('a,button,input,select,textarea,.cat-card,.prod-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cur.classList.add('grow'));
+  el.addEventListener('mouseleave', () => cur.classList.remove('grow'));
+});
+
+const hdr = document.getElementById('site-header');
+window.addEventListener('scroll', () => hdr.classList.toggle('solid', scrollY > 50), { passive: true });
+
+const drawer = document.getElementById('drawer');
+const ham = document.getElementById('hamburger');
+ham.addEventListener('click', () => { ham.classList.toggle('open'); drawer.classList.toggle('open'); });
+function closeDrawer() { ham.classList.remove('open'); drawer.classList.remove('open'); }
+
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+const countObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target, end = +el.dataset.to;
+    const sfx = end >= 1000 ? '+' : '+';
+    let t0 = null;
+    const run = ts => {
+      if (!t0) t0 = ts;
+      const p = Math.min((ts-t0)/1400, 1);
+      el.textContent = (p===1 ? (end>=1000?end.toLocaleString('pt-BR'):end)+sfx : Math.floor(p*end));
+      if (p < 1) requestAnimationFrame(run);
+    };
+    requestAnimationFrame(run);
+    countObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-n[data-to]').forEach(el => countObs.observe(el));
+
+document.querySelectorAll('.gtab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    const g = btn.dataset.g;
+    document.querySelectorAll('.cat-group').forEach(grp => {
+      grp.style.display = (g==='todos' || grp.dataset.group===g) ? '' : 'none';
     });
-    document.querySelectorAll('a, button, .cat-card, .prod-card').forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('big'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
-    });
+  });
+});
 
-    // ─── STICKY HEADER ───
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 60);
-    });
+document.querySelectorAll('.filter-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('on'));
+    pill.classList.add('on');
+    filterProds(pill.dataset.cat);
+  });
+});
 
-    // ─── REVEAL ON SCROLL ───
-    const reveals = document.querySelectorAll('.reveal');
-    const revealObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          revealObs.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    reveals.forEach(r => revealObs.observe(r));
+function filterProds(cat) {
+  const cards = document.querySelectorAll('.prod-card');
+  let n = 0;
+  cards.forEach(c => {
+    const show = cat==='todos' || c.dataset.cat===cat;
+    c.style.display = show ? '' : 'none';
+    if (show) n++;
+  });
+  document.getElementById('prodEmpty').classList.toggle('show', n===0);
+  document.getElementById('prodCount').textContent = n+' produto'+(n!==1?'s':'')+' encontrado'+(n!==1?'s':'');
+}
 
-    // ─── COUNT-UP ───
-    const statEls = document.querySelectorAll('.stat-n[data-count]');
-    const countObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        const el = e.target;
-        const target = parseInt(el.dataset.count);
-        const suffix = el.textContent.replace(/\d/g,'');
-        let start = 0;
-        const dur = 1400;
-        const step = timestamp => {
-          if (!start) start = timestamp;
-          const p = Math.min((timestamp - start) / dur, 1);
-          const val = Math.floor(p * target);
-          el.textContent = (val >= 1000 ? val.toLocaleString('pt-BR') : val) + suffix;
-          if (p < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-        countObs.unobserve(el);
-      });
-    }, { threshold: 0.5 });
-    statEls.forEach(el => countObs.observe(el));
+function sortProds() {
+  const val = document.getElementById('prodSort').value;
+  const grid = document.getElementById('prodGrid');
+  const cards = [...grid.querySelectorAll('.prod-card')];
+  cards.sort((a,b) => {
+    if (val==='asc')  return +a.dataset.price - +b.dataset.price;
+    if (val==='desc') return +b.dataset.price - +a.dataset.price;
+    if (val==='az')   return a.dataset.name.localeCompare(b.dataset.name,'pt');
+    return 0;
+  });
+  cards.forEach(c => grid.insertBefore(c, document.getElementById('prodEmpty')));
+}
 
-    // ─── FAVOURITES ───
-    function toggleFav(btn) {
-      btn.classList.toggle('active');
-      btn.textContent = btn.classList.contains('active') ? '❤️' : '🤍';
+function setProdCols(n) {
+  document.getElementById('prodGrid').classList.remove('cols-2','cols-3');
+  if (n===3) document.getElementById('prodGrid').classList.add('cols-3');
+  if (n===2) document.getElementById('prodGrid').classList.add('cols-2');
+  ['g4','g3','g2'].forEach(id => document.getElementById(id).classList.remove('on'));
+  document.getElementById('g'+n).classList.add('on');
+}
+
+let shown=12, total=36;
+function loadMore() {
+  shown = Math.min(shown+12, total);
+  document.getElementById('loadMoreTxt').textContent = 'Mostrando '+shown+' de '+total+' produtos';
+  document.getElementById('prodCount').textContent = shown+' de '+total+' produtos';
+  if (shown>=total) document.getElementById('loadMore').innerHTML = '<p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;color:var(--olive);font-size:1rem">Você viu todos os produtos ✦</p>';
+}
+
+function toggleFav(btn) {
+  btn.classList.toggle('loved');
+  btn.textContent = btn.classList.contains('loved') ? '❤️' : '🤍';
+}
+
+document.querySelectorAll('.sub-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    const sel = document.getElementById('f-assunto');
+    for (const opt of sel.options) {
+      if (opt.text.toLowerCase().startsWith(btn.dataset.s.toLowerCase().split(' ')[0])) { sel.value=opt.value; break; }
     }
+  });
+});
 
-    // ─── NEWSLETTER ───
-    function subscribeNewsletter(btn) {
-      const input = btn.previousElementSibling;
-      const email = input.value.trim();
-      if (!email || !email.includes('@')) {
-        input.style.borderColor = '#c05050';
-        setTimeout(() => input.style.borderColor = '', 1000);
-        return;
-      }
-      btn.textContent = '✓ Inscrito!';
-      btn.style.background = '#5a8a5a';
-      btn.disabled = true;
-      input.value = '';
-    }
+document.getElementById('f-msg').addEventListener('input', function() {
+  document.getElementById('fCounter').textContent = this.value.length+' / 600';
+});
 
-    // ─── HAMBURGER MENU ───
-    document.getElementById('hamburger').addEventListener('click', function() {
-      this.classList.toggle('open');
-    });
-  </script>
+document.getElementById('f-tel').addEventListener('input', function() {
+  let v = this.value.replace(/\D/g,'').slice(0,11);
+  if (v.length>=7) v='('+v.slice(0,2)+') '+v.slice(2,7)+'-'+v.slice(7);
+  else if (v.length>=2) v='('+v.slice(0,2)+') '+v.slice(2);
+  this.value = v;
+});
+
+function sendForm() {
+  const nome=document.getElementById('f-nome'), email=document.getElementById('f-email'), msg=document.getElementById('f-msg');
+  [nome,email,msg].forEach(el => el.style.borderColor='');
+  let err=false;
+  if (!nome.value.trim()) { nome.style.borderColor='#c05050'; err=true; }
+  if (!email.value.includes('@')) { email.style.borderColor='#c05050'; err=true; }
+  if (!msg.value.trim()) { msg.style.borderColor='#c05050'; err=true; }
+  if (err) return;
+  const btn=document.querySelector('.f-submit');
+  btn.textContent='Enviando…'; btn.disabled=true;
+  setTimeout(() => {
+    document.getElementById('cForm').style.display='none';
+    document.getElementById('formOk').classList.add('show');
+  }, 1200);
+}
+
+function signNl(btn) {
+  const inp=document.getElementById('nlEmail');
+  if (!inp.value.includes('@')) { inp.style.borderColor='#c05050'; setTimeout(()=>inp.style.borderColor='',900); return; }
+  btn.textContent='✓ Inscrito!'; btn.style.background='#5a8a5a'; btn.disabled=true; inp.value='';
+}
+</script>
 </body>
 </html>
